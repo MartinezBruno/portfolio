@@ -1,0 +1,271 @@
+---
+import type { Lang } from '../i18n/ui';
+import { useTranslations } from '../i18n/utils';
+import { contactLinks } from '../data/projects';
+import SectionHeader from './SectionHeader.astro';
+import Icon from './Icon.astro';
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+---
+<section id="contact" class="contact">
+  <div class="inner">
+    <SectionHeader index="03" title={t('contact.title')} dark />
+
+    <div class="contact-grid" data-contact-grid>
+      <div class="left" data-reveal>
+        <p class="blurb">{t('contact.blurb')}</p>
+        <div class="links">
+          <a class="link-row" href={contactLinks.linkedin} target="_blank" rel="noopener">
+            LinkedIn<Icon name="arrow-up-right" size={18} />
+          </a>
+          <a class="link-row" href={contactLinks.github} target="_blank" rel="noopener">
+            GitHub<Icon name="arrow-up-right" size={18} />
+          </a>
+          <a class="link-row" href={contactLinks.cv}>
+            {t('contact.cv')}<Icon name="download" size={18} />
+          </a>
+        </div>
+      </div>
+
+      <div class="card blueprint" data-reveal>
+        <i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
+
+        <form
+          class="form"
+          data-contact-form
+          data-lang={lang}
+          data-err-required={t('contact.errRequired')}
+          data-err-mail={t('contact.errMail')}
+          data-err-short={t('contact.errShort')}
+          data-err-server={t('contact.errServer')}
+          novalidate
+        >
+          <div class="field">
+            <label for="cf-name">{t('contact.fieldName')}</label>
+            <input id="cf-name" name="name" type="text" autocomplete="name" required />
+            <span class="err" data-error="name" aria-live="polite"></span>
+          </div>
+          <div class="field">
+            <label for="cf-mail">{t('contact.fieldMail')}</label>
+            <input id="cf-mail" name="mail" type="email" autocomplete="email" required />
+            <span class="err" data-error="mail" aria-live="polite"></span>
+          </div>
+          <div class="field">
+            <label for="cf-msg">{t('contact.fieldMsg')}</label>
+            <textarea id="cf-msg" name="message" rows="5" required></textarea>
+            <span class="err" data-error="message" aria-live="polite"></span>
+          </div>
+
+          <!-- Honeypot: hidden from users; bots that fill it are dropped. -->
+          <div class="hp" aria-hidden="true">
+            <label for="cf-company">Company</label>
+            <input id="cf-company" name="company" type="text" tabindex="-1" autocomplete="off" />
+          </div>
+
+          <p class="form-error" data-form-error role="alert" hidden></p>
+
+          <button
+            type="submit"
+            class="submit blueprint"
+            data-submit
+            data-label-idle={t('contact.submit')}
+            data-label-sending={t('contact.sending')}
+          >
+            <i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
+            <span data-submit-label>{t('contact.submit')}</span>
+          </button>
+        </form>
+
+        <div class="success" data-success hidden>
+          <div class="check" aria-hidden="true"><Icon name="check" size={26} /></div>
+          <h3 class="sent-title">{t('contact.sentTitle')}</h3>
+          <p class="sent-body">{t('contact.sentBody')}</p>
+          <button type="button" class="send-another" data-send-another>{t('contact.sendAnother')}</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .contact {
+    margin-top: 110px;
+    background: var(--color-neutral-900);
+    color: #f2f2f3;
+  }
+  .inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 92px 24px;
+  }
+
+  /* Yellow focus ring reads better than accent-800 on the dark band. */
+  .contact :focus-visible { outline-color: var(--color-accent); }
+
+  .contact-grid {
+    display: grid;
+    grid-template-columns: 1fr 1.2fr;
+    gap: 56px;
+    align-items: start;
+  }
+
+  .blurb {
+    font-size: 19px;
+    line-height: 1.65;
+    margin: 0 0 28px;
+    color: rgba(255, 255, 255, 0.82);
+  }
+
+  .links {
+    display: flex;
+    flex-direction: column;
+    border-top: 1px solid rgba(255, 255, 255, 0.22);
+  }
+  .link-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.22);
+    color: #f2f2f3;
+    font-family: var(--font-heading);
+    font-weight: 600;
+    font-size: 18px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    text-decoration: none;
+  }
+  .link-row:hover { color: var(--color-accent); text-decoration: none; }
+
+  .card {
+    padding: 30px;
+    border-color: rgba(255, 255, 255, 0.3);
+    color: #f2f2f3;
+  }
+
+  .form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+  .field {
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+  }
+  .field label {
+    font-family: var(--font-heading);
+    font-size: 12px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.7);
+  }
+  .field input,
+  .field textarea {
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 0;
+    color: #f2f2f3;
+    font-family: var(--font-body);
+    font-size: 15px;
+    padding: 12px 14px;
+    outline-offset: 0;
+  }
+  .field textarea { resize: vertical; }
+  .err {
+    font-size: 13px;
+    color: var(--color-error);
+    min-height: 17px;
+  }
+  .form-error {
+    font-size: 14px;
+    color: var(--color-error);
+    margin: 0;
+  }
+  .form-error[hidden] { display: none; }
+
+  .hp {
+    position: absolute;
+    left: -9999px;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+  }
+
+  .submit {
+    align-self: flex-start;
+    background: var(--color-accent);
+    color: var(--color-text);
+    border: 1px solid var(--color-accent);
+    border-radius: 0;
+    font-family: var(--font-heading);
+    font-weight: 600;
+    font-size: 15px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 13px 30px;
+    cursor: pointer;
+    transition: background 0.18s ease, transform 0.18s ease;
+  }
+  .submit:hover { background: #ffffff; transform: translateY(-2px); }
+  .submit:active { transform: translateY(0); }
+  .submit:disabled { opacity: 0.7; cursor: progress; transform: none; }
+
+  .success {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 18px;
+    padding: 26px 0;
+  }
+  .success[hidden] { display: none; }
+  .check {
+    width: 54px;
+    height: 54px;
+    border: 1px solid var(--color-accent);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--color-accent);
+  }
+  .sent-title {
+    font-family: var(--font-heading);
+    font-weight: 700;
+    font-size: 34px;
+    text-transform: uppercase;
+    margin: 0;
+    color: #f2f2f3;
+  }
+  .sent-body {
+    font-size: 16px;
+    line-height: 1.6;
+    margin: 0;
+    color: rgba(255, 255, 255, 0.78);
+    max-width: 42ch;
+  }
+  .send-another {
+    background: transparent;
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    border-radius: 0;
+    color: #f2f2f3;
+    font-family: var(--font-heading);
+    font-weight: 600;
+    font-size: 14px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 11px 22px;
+    cursor: pointer;
+  }
+  .send-another:hover { background: rgba(255, 255, 255, 0.1); }
+
+  @media (max-width: 900px) {
+    .contact-grid {
+      grid-template-columns: 1fr;
+      gap: 32px;
+    }
+  }
+</style>

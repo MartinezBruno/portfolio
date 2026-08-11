@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="_ds/industry-e5e912e9-b1c0-4e73-8265-bd78b4521b42/styles.css">
+<script src="_ds/industry-e5e912e9-b1c0-4e73-8265-bd78b4521b42/_ds_bundle.js"></script>
+<script src="./image-slot.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600;700&family=Barlow+Condensed:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --color-bg: #F2EFE6;
+  --color-surface: #E9E5D9;
+  --color-text: #1E1E1C;
+  --color-divider: color-mix(in srgb, #1E1E1C 18%, transparent);
+  --color-neutral-900: #222222;
+  --color-accent: #FEDA0A;
+  --color-accent-100: #fffbe6;
+  --color-accent-200: #fff3b8;
+  --color-accent-300: #ffe97a;
+  --color-accent-400: #fee23f;
+  --color-accent-500: #FEDA0A;
+  --color-accent-600: #d9b800;
+  --color-accent-700: #a58c00;
+  --color-accent-800: #6f5e00;
+  --color-accent-900: #4a3f00;
+}
+.btn-primary { color: var(--color-text); }
+.btn-primary:hover { background: var(--color-accent-400); }
+.btn-primary:active { background: var(--color-accent-600); }
+.tag-accent { color: var(--color-accent-800); }
+.tag-outline { color: var(--color-accent-800); border-color: var(--color-accent-600); }
+.duotone::after { background: var(--color-accent-800); }
+html { scroll-behavior: smooth; }
+body { margin: 0; }
+a { color: var(--color-accent-800); text-decoration: none; }
+a:hover { color: var(--color-accent-900); text-decoration: underline; }
+@media (prefers-reduced-motion: reduce) { * { animation: none !important; transition: none !important; } }
+@media (max-width: 900px) {
+  [data-desktop-nav] { display: none !important; }
+  [data-burger] { display: flex !important; }
+  [data-hero-grid] { grid-template-columns: 1fr !important; gap: 36px !important; }
+  [data-hero-grid] figure { max-width: 320px; }
+  [data-about-grid], [data-contact-grid] { grid-template-columns: 1fr !important; gap: 32px !important; }
+  [data-projects-grid] { grid-template-columns: 1fr !important; }
+  [data-spec-strip] { grid-template-columns: 1fr 1fr !important; }
+  [data-spec-strip] > div:nth-child(2) { border-right: 0 !important; }
+  [data-spec-strip] > div:nth-child(1), [data-spec-strip] > div:nth-child(2) { border-bottom: 1px solid var(--color-divider); }
+  [data-h1] { font-size: 58px !important; }
+  [data-h2] { font-size: 34px !important; }
+}
+@media (max-width: 520px) {
+  [data-h1] { font-size: 46px !important; }
+  [data-spec-strip] { grid-template-columns: 1fr !important; }
+  [data-spec-strip] > div { border-right: 0 !important; border-bottom: 1px solid var(--color-divider); }
+}
+</style>
+</helmet>
+<div style="background: var(--color-bg); color: var(--color-text); font-family: var(--font-body); min-height: 100vh; overflow-x: hidden;">
+
+  <header style="position: sticky; top: 0; z-index: 40; background: color-mix(in srgb, var(--color-bg) 88%, transparent); backdrop-filter: blur(8px); border-bottom: 1px solid var(--color-divider);">
+    <div style="max-width: 1200px; margin: 0 auto; padding: 0 24px; height: 62px; display: flex; align-items: center; justify-content: space-between; gap: 20px;">
+      <a href="#top" style="font-family: var(--font-heading); font-weight: 700; font-size: 22px; letter-spacing: -0.01em; color: var(--color-text); text-decoration: none; display: flex; align-items: baseline; gap: 1px;">
+        <span style="color: var(--color-accent-800);">&lt;</span>Bruno<span style="color: var(--color-accent-800);">/&gt;</span>
+      </a>
+      <nav style="display: flex; align-items: center; gap: 4px;" data-desktop-nav>
+        <a href="#about" style="font-family: var(--font-heading); font-weight: 600; font-size: 15px; letter-spacing: 0.02em; text-transform: uppercase; color: var(--color-text); text-decoration: none; padding: 8px 14px;" style-hover="color: var(--color-accent-800); background: var(--color-accent-100);">{{ t.navAbout }}</a>
+        <a href="#projects" style="font-family: var(--font-heading); font-weight: 600; font-size: 15px; letter-spacing: 0.02em; text-transform: uppercase; color: var(--color-text); text-decoration: none; padding: 8px 14px;" style-hover="color: var(--color-accent-800); background: var(--color-accent-100);">{{ t.navProjects }}</a>
+        <a href="#contact" style="font-family: var(--font-heading); font-weight: 600; font-size: 15px; letter-spacing: 0.02em; text-transform: uppercase; color: var(--color-text); text-decoration: none; padding: 8px 14px;" style-hover="color: var(--color-accent-800); background: var(--color-accent-100);">{{ t.navContact }}</a>
+        <div style="display: flex; border: 1px solid var(--color-divider); margin-left: 12px;">
+          <button type="button" onClick="{{ setEn }}" style="{{ enBtnStyle }}">EN</button>
+          <button type="button" onClick="{{ setEs }}" style="{{ esBtnStyle }}">ES</button>
+        </div>
+      </nav>
+      <button type="button" onClick="{{ openMenu }}" aria-label="Menu" data-burger style="display: none; width: 40px; height: 40px; align-items: center; justify-content: center; background: transparent; border: 1px solid var(--color-divider); cursor: pointer; color: var(--color-text);">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M3 6h18M3 12h18M3 18h18"></path></svg>
+      </button>
+    </div>
+  </header>
+
+  <div style="{{ scrimStyle }}" onClick="{{ closeMenu }}"></div>
+  <aside style="{{ drawerStyle }}">
+    <div style="display: flex; align-items: center; justify-content: space-between; padding: 0 24px; height: 62px; border-bottom: 1px solid var(--color-divider);">
+      <span style="font-family: var(--font-heading); font-weight: 600; font-size: 13px; letter-spacing: 0.14em; text-transform: uppercase; color: color-mix(in srgb, var(--color-text) 55%, transparent);">{{ t.menu }}</span>
+      <button type="button" onClick="{{ closeMenu }}" aria-label="Close" style="width: 36px; height: 36px; display: flex; align-items: center; justify-content: center; background: transparent; border: 1px solid var(--color-divider); cursor: pointer; color: var(--color-text);">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"></path></svg>
+      </button>
+    </div>
+    <nav style="display: flex; flex-direction: column; padding: 10px 0;">
+      <a href="#about" onClick="{{ closeMenu }}" style="display: flex; align-items: baseline; gap: 14px; padding: 18px 24px; border-bottom: 1px solid var(--color-divider); font-family: var(--font-heading); font-weight: 600; font-size: 28px; letter-spacing: -0.01em; color: var(--color-text); text-decoration: none;">
+        <span style="font-family: var(--font-body); font-size: 12px; letter-spacing: 0.1em; color: var(--color-accent-800);">01</span>{{ t.navAbout }}
+      </a>
+      <a href="#projects" onClick="{{ closeMenu }}" style="display: flex; align-items: baseline; gap: 14px; padding: 18px 24px; border-bottom: 1px solid var(--color-divider); font-family: var(--font-heading); font-weight: 600; font-size: 28px; letter-spacing: -0.01em; color: var(--color-text); text-decoration: none;">
+        <span style="font-family: var(--font-body); font-size: 12px; letter-spacing: 0.1em; color: var(--color-accent-800);">02</span>{{ t.navProjects }}
+      </a>
+      <a href="#contact" onClick="{{ closeMenu }}" style="display: flex; align-items: baseline; gap: 14px; padding: 18px 24px; border-bottom: 1px solid var(--color-divider); font-family: var(--font-heading); font-weight: 600; font-size: 28px; letter-spacing: -0.01em; color: var(--color-text); text-decoration: none;">
+        <span style="font-family: var(--font-body); font-size: 12px; letter-spacing: 0.1em; color: var(--color-accent-800);">03</span>{{ t.navContact }}
+      </a>
+    </nav>
+    <div style="padding: 24px; display: flex; flex-direction: column; gap: 14px;">
+      <span style="font-family: var(--font-heading); font-weight: 600; font-size: 13px; letter-spacing: 0.14em; text-transform: uppercase; color: color-mix(in srgb, var(--color-text) 55%, transparent);">{{ t.language }}</span>
+      <div style="display: flex; border: 1px solid var(--color-divider); align-self: flex-start;">
+        <button type="button" onClick="{{ setEn }}" style="{{ enBtnStyle }}">ENGLISH</button>
+        <button type="button" onClick="{{ setEs }}" style="{{ esBtnStyle }}">ESPAÑOL</button>
+      </div>
+    </div>
+  </aside>
+
+  <main id="top">
+    <section data-screen-label="Hero" style="max-width: 1200px; margin: 0 auto; padding: 84px 24px 0;">
+      <div data-hero-grid style="display: grid; grid-template-columns: 1.35fr 1fr; gap: 56px; align-items: start;">
+        <div>
+          <h1 data-h1 style="font-family: var(--font-heading); font-weight: 700; font-size: 92px; line-height: 0.92; letter-spacing: -0.02em; margin: 0 0 20px; text-transform: uppercase;"><span style="display: block; overflow: hidden;"><span data-hero-line style="display: block;">Bruno</span></span><span style="display: block; overflow: hidden;"><span data-hero-line style="display: block;">Martinez</span></span></h1>
+          <p data-hero-copy style="font-family: var(--font-heading); font-weight: 600; font-size: 24px; letter-spacing: 0.02em; text-transform: uppercase; color: var(--color-accent-800); margin: 0 0 20px;">{{ t.role }}</p>
+          <p data-hero-copy style="font-size: 17px; line-height: 1.6; max-width: 46ch; text-wrap: pretty; margin: 0 0 30px; color: color-mix(in srgb, var(--color-text) 78%, transparent);">{{ t.heroBlurb }}</p>
+          <div data-hero-copy style="display: flex; flex-wrap: wrap; gap: 12px;">
+            <a class="btn btn-primary blueprint" href="#contact" style="padding: 12px 22px; font-size: 15px; letter-spacing: 0.06em; text-transform: uppercase;">
+              <i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>{{ t.ctaHire }}
+            </a>
+            <a class="btn btn-secondary" href="#projects" style="padding: 12px 22px; font-size: 15px; letter-spacing: 0.06em; text-transform: uppercase; border-radius: 0;">{{ t.ctaWork }}</a>
+          </div>
+        </div>
+        <figure style="margin: 0;">
+          <div data-hero-fig class="blueprint" style="padding: 10px; background: transparent;">
+            <i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
+            <div style="aspect-ratio: 4 / 5; position: relative; overflow: hidden;">
+              <image-slot id="bruno-profile" shape="rect" fit="cover" placeholder="Drop your LinkedIn profile photo" style="width: 100%; height: 100%;"></image-slot>
+            </div>
+          </div>
+          <figcaption style="display: flex; justify-content: space-between; font-family: var(--font-heading); letter-spacing: 0.12em; text-transform: uppercase; font-size: 12px; margin-top: 10px;">
+            <span>FIG. 01 — B. Martinez</span><span>{{ t.figScale }}</span>
+          </figcaption>
+        </figure>
+      </div>
+      <div data-spec-strip data-reveal style="display: grid; grid-template-columns: repeat(4, 1fr); border: 1px solid var(--color-divider); margin-top: 64px;">
+        <div style="padding: 20px 22px; border-right: 1px solid var(--color-divider);">
+          <div style="font-family: var(--font-heading); font-size: 12px; letter-spacing: 0.16em; text-transform: uppercase; color: color-mix(in srgb, var(--color-text) 55%, transparent); margin-bottom: 6px;">{{ t.specRoleK }}</div>
+          <div style="font-family: var(--font-heading); font-weight: 600; font-size: 20px; text-transform: uppercase;">{{ t.specRoleV }}</div>
+        </div>
+        <div style="padding: 20px 22px; border-right: 1px solid var(--color-divider);">
+          <div style="font-family: var(--font-heading); font-size: 12px; letter-spacing: 0.16em; text-transform: uppercase; color: color-mix(in srgb, var(--color-text) 55%, transparent); margin-bottom: 6px;">{{ t.specFocusK }}</div>
+          <div style="font-family: var(--font-heading); font-weight: 600; font-size: 20px; text-transform: uppercase;">{{ t.specFocusV }}</div>
+        </div>
+        <div style="padding: 20px 22px; border-right: 1px solid var(--color-divider);">
+          <div style="font-family: var(--font-heading); font-size: 12px; letter-spacing: 0.16em; text-transform: uppercase; color: color-mix(in srgb, var(--color-text) 55%, transparent); margin-bottom: 6px;">{{ t.specStackK }}</div>
+          <div style="font-family: var(--font-heading); font-weight: 600; font-size: 20px; text-transform: uppercase;">JS · PHP · React</div>
+        </div>
+        <div style="padding: 20px 22px;">
+          <div style="font-family: var(--font-heading); font-size: 12px; letter-spacing: 0.16em; text-transform: uppercase; color: color-mix(in srgb, var(--color-text) 55%, transparent); margin-bottom: 6px;">{{ t.specStatusK }}</div>
+          <div style="display: flex; align-items: center; gap: 8px; font-family: var(--font-heading); font-weight: 600; font-size: 20px; text-transform: uppercase; color: var(--color-accent-800);">
+            <span style="width: 8px; height: 8px; background: var(--color-accent);"></span>{{ t.specStatusV }}
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="about" data-screen-label="About" style="max-width: 1200px; margin: 0 auto; padding: 110px 24px 0;">
+      <div style="display: flex; align-items: baseline; gap: 16px; margin-bottom: 42px;">
+        <span style="font-family: var(--font-heading); font-size: 13px; letter-spacing: 0.2em; color: var(--color-accent-800);">01</span>
+        <h2 data-h2 style="font-family: var(--font-heading); font-weight: 700; font-size: 48px; letter-spacing: -0.01em; text-transform: uppercase; margin: 0;">{{ t.aboutTitle }}</h2>
+        <span style="flex: 1; height: 1px; background: var(--color-divider);"></span>
+      </div>
+      <div data-about-grid style="display: grid; grid-template-columns: 1.25fr 1fr; gap: 56px;">
+        <div data-reveal>
+          <p style="font-size: 19px; line-height: 1.65; text-wrap: pretty; margin: 0 0 20px;">{{ t.aboutP1 }}</p>
+          <p style="font-size: 17px; line-height: 1.65; text-wrap: pretty; margin: 0; color: color-mix(in srgb, var(--color-text) 74%, transparent);">{{ t.aboutP2 }}</p>
+        </div>
+        <div data-reveal class="blueprint" style="padding: 26px;">
+          <i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
+          <div style="font-family: var(--font-heading); font-size: 12px; letter-spacing: 0.16em; text-transform: uppercase; color: color-mix(in srgb, var(--color-text) 55%, transparent); margin-bottom: 16px;">{{ t.toolsTitle }}</div>
+          <div style="display: flex; flex-wrap: wrap; gap: 8px;">
+            <sc-for list="{{ skills }}" as="skill" hint-placeholder-count="8">
+              <span class="tag tag-outline" style="border-radius: 0; font-family: var(--font-heading); letter-spacing: 0.06em; text-transform: uppercase;">{{ skill }}</span>
+            </sc-for>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="projects" data-screen-label="Projects" style="max-width: 1200px; margin: 0 auto; padding: 110px 24px 0;">
+      <div style="display: flex; align-items: baseline; gap: 16px; margin-bottom: 42px;">
+        <span style="font-family: var(--font-heading); font-size: 13px; letter-spacing: 0.2em; color: var(--color-accent-800);">02</span>
+        <h2 data-h2 style="font-family: var(--font-heading); font-weight: 700; font-size: 48px; letter-spacing: -0.01em; text-transform: uppercase; margin: 0;">{{ t.projectsTitle }}</h2>
+        <span style="flex: 1; height: 1px; background: var(--color-divider);"></span>
+      </div>
+      <div data-projects-grid style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px;">
+        <sc-for list="{{ projects }}" as="p" hint-placeholder-count="3">
+          <article class="blueprint" data-reveal style="padding: 16px; display: flex; flex-direction: column; gap: 16px;">
+            <i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
+            <sc-if value="{{ p.hasImage }}" hint-placeholder-val="{{ true }}">
+              <div style="aspect-ratio: 16 / 10; border: 1px solid var(--color-divider); overflow: hidden;">
+                <img src="{{ p.img }}" alt="{{ p.title }}" style="width: 100%; height: 100%; object-fit: cover; object-position: top center; display: block;">
+              </div>
+            </sc-if>
+            <sc-if value="{{ p.noImage }}" hint-placeholder-val="{{ false }}">
+              <div style="aspect-ratio: 16 / 10; border: 1px solid var(--color-divider); display: flex; align-items: center; justify-content: center; background: repeating-linear-gradient(135deg, transparent 0 9px, color-mix(in srgb, var(--color-text) 7%, transparent) 9px 10px);">
+                <span style="font-family: var(--font-heading); font-size: 12px; letter-spacing: 0.16em; text-transform: uppercase; color: color-mix(in srgb, var(--color-text) 55%, transparent); background: var(--color-bg); padding: 6px 10px;">{{ t.imagePending }}</span>
+              </div>
+            </sc-if>
+            <div style="display: flex; align-items: baseline; gap: 10px;">
+              <span style="font-family: var(--font-heading); font-size: 12px; letter-spacing: 0.16em; color: var(--color-accent-800);">{{ p.n }}</span>
+              <h3 style="font-family: var(--font-heading); font-weight: 700; font-size: 30px; letter-spacing: -0.01em; text-transform: uppercase; margin: 0;">{{ p.title }}</h3>
+            </div>
+            <p style="font-size: 15px; line-height: 1.6; text-wrap: pretty; margin: 0; color: color-mix(in srgb, var(--color-text) 76%, transparent);">{{ p.desc }}</p>
+            <div style="display: flex; flex-wrap: wrap; gap: 6px;">
+              <sc-for list="{{ p.stack }}" as="s" hint-placeholder-count="3">
+                <span class="tag tag-accent" style="border-radius: 0; font-family: var(--font-heading); letter-spacing: 0.06em; text-transform: uppercase;">{{ s }}</span>
+              </sc-for>
+            </div>
+            <div style="display: flex; gap: 10px; margin-top: auto; padding-top: 4px;">
+              <a class="btn btn-primary" href="{{ p.live }}" style="border-radius: 0; letter-spacing: 0.06em; text-transform: uppercase;">{{ t.viewPage }}</a>
+              <a class="btn btn-secondary" href="{{ p.code }}" style="border-radius: 0; letter-spacing: 0.06em; text-transform: uppercase;">{{ t.viewCode }}</a>
+            </div>
+          </article>
+        </sc-for>
+      </div>
+    </section>
+
+    <section id="contact" data-screen-label="Contact" style="margin-top: 110px; background: var(--color-neutral-900); color: #f2f2f3;">
+      <div style="max-width: 1200px; margin: 0 auto; padding: 92px 24px;">
+        <div style="display: flex; align-items: baseline; gap: 16px; margin-bottom: 42px;">
+          <span style="font-family: var(--font-heading); font-size: 13px; letter-spacing: 0.2em; color: var(--color-accent);">03</span>
+          <h2 data-h2 style="font-family: var(--font-heading); font-weight: 700; font-size: 48px; letter-spacing: -0.01em; text-transform: uppercase; margin: 0; color: #f2f2f3;">{{ t.contactTitle }}</h2>
+          <span style="flex: 1; height: 1px; background: rgba(255,255,255,0.22);"></span>
+        </div>
+        <div data-contact-grid style="display: grid; grid-template-columns: 1fr 1.2fr; gap: 56px; align-items: start;">
+          <div data-reveal>
+            <p style="font-size: 19px; line-height: 1.65; text-wrap: pretty; margin: 0 0 28px; color: rgba(255,255,255,0.82);">{{ t.contactBlurb }}</p>
+            <div style="display: flex; flex-direction: column; gap: 0; border-top: 1px solid rgba(255,255,255,0.22);">
+              <a href="https://www.linkedin.com/in/bmartinez-dev/" target="_blank" rel="noopener" style="display: flex; align-items: center; justify-content: space-between; padding: 16px 0; border-bottom: 1px solid rgba(255,255,255,0.22); color: #f2f2f3; font-family: var(--font-heading); font-weight: 600; font-size: 18px; letter-spacing: 0.06em; text-transform: uppercase; text-decoration: none;" style-hover="color: var(--color-accent);">
+                LinkedIn
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M9 7h8v8"></path></svg>
+              </a>
+              <a href="#" style="display: flex; align-items: center; justify-content: space-between; padding: 16px 0; border-bottom: 1px solid rgba(255,255,255,0.22); color: #f2f2f3; font-family: var(--font-heading); font-weight: 600; font-size: 18px; letter-spacing: 0.06em; text-transform: uppercase; text-decoration: none;" style-hover="color: var(--color-accent);">
+                GitHub
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M9 7h8v8"></path></svg>
+              </a>
+              <a href="#" style="display: flex; align-items: center; justify-content: space-between; padding: 16px 0; border-bottom: 1px solid rgba(255,255,255,0.22); color: #f2f2f3; font-family: var(--font-heading); font-weight: 600; font-size: 18px; letter-spacing: 0.06em; text-transform: uppercase; text-decoration: none;" style-hover="color: var(--color-accent);">
+                {{ t.cv }}
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v12M7 12l5 5 5-5M5 20h14"></path></svg>
+              </a>
+            </div>
+          </div>
+          <div data-reveal class="blueprint" style="padding: 30px; border-color: rgba(255,255,255,0.3); color: #f2f2f3;">
+            <i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
+            <sc-if value="{{ notSent }}" hint-placeholder-val="{{ true }}">
+              <form onSubmit="{{ onSubmit }}" noValidate="{{ true }}" style="display: flex; flex-direction: column; gap: 20px;">
+                <div style="display: flex; flex-direction: column; gap: 7px;">
+                  <label for="cf-name" style="font-family: var(--font-heading); font-size: 12px; letter-spacing: 0.16em; text-transform: uppercase; color: rgba(255,255,255,0.7);">{{ t.fieldName }}</label>
+                  <input id="cf-name" name="name" type="text" autoComplete="name" style="background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.3); border-radius: 0; color: #f2f2f3; font-family: var(--font-body); font-size: 15px; padding: 12px 14px; outline: none;">
+                  <span style="font-size: 13px; color: #ffb4b4; min-height: 17px;">{{ errName }}</span>
+                </div>
+                <div style="display: flex; flex-direction: column; gap: 7px;">
+                  <label for="cf-mail" style="font-family: var(--font-heading); font-size: 12px; letter-spacing: 0.16em; text-transform: uppercase; color: rgba(255,255,255,0.7);">{{ t.fieldMail }}</label>
+                  <input id="cf-mail" name="mail" type="email" autoComplete="email" style="background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.3); border-radius: 0; color: #f2f2f3; font-family: var(--font-body); font-size: 15px; padding: 12px 14px; outline: none;">
+                  <span style="font-size: 13px; color: #ffb4b4; min-height: 17px;">{{ errMail }}</span>
+                </div>
+                <div style="display: flex; flex-direction: column; gap: 7px;">
+                  <label for="cf-msg" style="font-family: var(--font-heading); font-size: 12px; letter-spacing: 0.16em; text-transform: uppercase; color: rgba(255,255,255,0.7);">{{ t.fieldMsg }}</label>
+                  <textarea id="cf-msg" name="message" rows="5" style="background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.3); border-radius: 0; color: #f2f2f3; font-family: var(--font-body); font-size: 15px; padding: 12px 14px; outline: none; resize: vertical;"></textarea>
+                  <span style="font-size: 13px; color: #ffb4b4; min-height: 17px;">{{ errMsg }}</span>
+                </div>
+                <button type="submit" class="blueprint" style="align-self: flex-start; background: var(--color-accent); color: var(--color-text); border: 1px solid var(--color-accent); border-radius: 0; font-family: var(--font-heading); font-weight: 600; font-size: 15px; letter-spacing: 0.08em; text-transform: uppercase; padding: 13px 30px; cursor: pointer; transition: background .18s ease, transform .18s ease;" style-hover="background: #ffffff; transform: translateY(-2px);" style-active="transform: translateY(0);">
+                  <i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>{{ t.submit }}
+                </button>
+              </form>
+            </sc-if>
+            <sc-if value="{{ sent }}" hint-placeholder-val="{{ false }}">
+              <div style="display: flex; flex-direction: column; align-items: flex-start; gap: 18px; padding: 26px 0;">
+                <div style="width: 54px; height: 54px; border: 1px solid var(--color-accent); display: flex; align-items: center; justify-content: center; color: var(--color-accent);">
+                  <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="m5 13 4.5 4.5L19 7"></path></svg>
+                </div>
+                <h3 style="font-family: var(--font-heading); font-weight: 700; font-size: 34px; text-transform: uppercase; margin: 0; color: #f2f2f3;">{{ t.sentTitle }}</h3>
+                <p style="font-size: 16px; line-height: 1.6; margin: 0; color: rgba(255,255,255,0.78); max-width: 42ch;">{{ t.sentBody }}</p>
+                <button type="button" onClick="{{ resetForm }}" style="background: transparent; border: 1px solid rgba(255,255,255,0.4); border-radius: 0; color: #f2f2f3; font-family: var(--font-heading); font-weight: 600; font-size: 14px; letter-spacing: 0.08em; text-transform: uppercase; padding: 11px 22px; cursor: pointer;" style-hover="background: rgba(255,255,255,0.1);">{{ t.sendAnother }}</button>
+              </div>
+            </sc-if>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer style="max-width: 1200px; margin: 0 auto; padding: 28px 24px 40px; display: flex; flex-wrap: wrap; gap: 12px; justify-content: space-between; font-family: var(--font-heading); font-size: 13px; letter-spacing: 0.12em; text-transform: uppercase; color: color-mix(in srgb, var(--color-text) 55%, transparent);">
+    <span>© 2026 Bruno Martinez</span>
+    <span>{{ t.footerNote }}</span>
+  </footer>
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;defaultLang&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;en&quot;,&quot;es&quot;],&quot;default&quot;:&quot;en&quot;,&quot;tsType&quot;:&quot;\&quot;en\&quot; | \&quot;es\&quot;&quot;,&quot;section&quot;:&quot;Content&quot;},&quot;motion&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Behavior&quot;}}">
+const COPY = {
+  en: {
+    navAbout: "About", navProjects: "Projects", navContact: "Contact", menu: "Menu", language: "Language",
+    kicker: "Portfolio — 2026", role: "Software Developer",
+    heroBlurb: "I build web products end to end — interfaces that stay legible under load and back ends that keep their promises.",
+    ctaHire: "Get in touch", ctaWork: "See the work", figScale: "Ratio 4:5",
+    specRoleK: "Role", specRoleV: "Developer", specFocusK: "Focus", specFocusV: "Web apps",
+    specStackK: "Core stack", specStatusK: "Status", specStatusV: "Open to work",
+    aboutTitle: "About me",
+    aboutP1: "I'm a software developer working across the full stack: JavaScript and React on the front, PHP and Node on the back, and the plumbing in between.",
+    aboutP2: "I like problems with constraints — a schema that has to hold, a page that has to load on a bad connection, a form that has to be honest with the person filling it in. I read the spec, draw the thing, then build it.",
+    toolsTitle: "Tools & technologies",
+    projectsTitle: "Projects",
+    viewPage: "View page", viewCode: "View code", imagePending: "Image pending",
+    contactTitle: "Contact me",
+    contactBlurb: "Got a project, a role, or a question? Send a note and I'll come back to you within a couple of days.",
+    cv: "Download CV",
+    fieldName: "Name", fieldMail: "Email", fieldMsg: "Message", submit: "Submit",
+    sentTitle: "Message sent", sentBody: "Thanks — your message is on its way. I'll reply to the address you gave.",
+    sendAnother: "Send another",
+    footerNote: "Designed & developed by Bruno Martinez",
+    errRequired: "This field is required.", errMail: "Enter a valid email address.", errShort: "Tell me a little more — 10 characters minimum."
+  },
+  es: {
+    navAbout: "Sobre mí", navProjects: "Proyectos", navContact: "Contacto", menu: "Menú", language: "Idioma",
+    kicker: "Portfolio — 2026", role: "Desarrollador de Software",
+    heroBlurb: "Construyo productos web de punta a punta: interfaces que se leen bien bajo presión y back ends que cumplen lo que prometen.",
+    ctaHire: "Contactame", ctaWork: "Ver el trabajo", figScale: "Ratio 4:5",
+    specRoleK: "Rol", specRoleV: "Desarrollador", specFocusK: "Enfoque", specFocusV: "Apps web",
+    specStackK: "Stack principal", specStatusK: "Estado", specStatusV: "Disponible",
+    aboutTitle: "Sobre mí",
+    aboutP1: "Soy desarrollador de software y trabajo en todo el stack: JavaScript y React del lado del cliente, PHP y Node del lado del servidor, y toda la cañería del medio.",
+    aboutP2: "Me gustan los problemas con restricciones: un esquema que tiene que aguantar, una página que tiene que cargar con mala conexión, un formulario que tiene que ser honesto con quien lo completa. Leo la especificación, dibujo la solución y después la construyo.",
+    toolsTitle: "Herramientas y tecnologías",
+    projectsTitle: "Proyectos",
+    viewPage: "Ver página", viewCode: "Ver código", imagePending: "Imagen pendiente",
+    contactTitle: "Contacto",
+    contactBlurb: "¿Tenés un proyecto, una búsqueda o una consulta? Escribime y te respondo en un par de días.",
+    cv: "Descargar CV",
+    fieldName: "Nombre", fieldMail: "Mail", fieldMsg: "Mensaje", submit: "Enviar",
+    sentTitle: "Mensaje enviado", sentBody: "Gracias — tu mensaje está en camino. Te respondo a la dirección que dejaste.",
+    sendAnother: "Enviar otro",
+    footerNote: "Diseñado y desarrollado por Bruno Martinez",
+    errRequired: "Este campo es obligatorio.", errMail: "Ingresá un mail válido.", errShort: "Contame un poco más — mínimo 10 caracteres."
+  }
+};
+
+const PROJECTS = [
+  {
+    n: "01", title: "InstaBlogs", img: "assets/project-instablogs.png",
+    stack: ["JavaScript", "PHP", "MySQL"],
+    desc: {
+      en: "A publishing platform with a card-based feed, author profiles and a lightweight editor. Server-rendered, no framework.",
+      es: "Una plataforma de publicación con feed en tarjetas, perfiles de autor y un editor liviano. Renderizado en servidor, sin framework."
+    }
+  },
+  {
+    n: "02", title: "Portfolio “Mart”", img: "assets/project-mart.png",
+    stack: ["HTML", "CSS", "JavaScript"],
+    desc: {
+      en: "A one-page portfolio built for a designer: scroll-driven sections, a hand-rolled gallery and a contact form that validates in place.",
+      es: "Un portfolio de una página para una diseñadora: secciones guiadas por scroll, galería propia y un formulario que valida en el lugar."
+    }
+  },
+  {
+    n: "03", title: "Task Board", img: "",
+    stack: ["React", "Node", "PostgreSQL"],
+    desc: {
+      en: "A kanban board for small teams — drag-and-drop columns, optimistic updates and a REST API behind it.",
+      es: "Un tablero kanban para equipos chicos: columnas con drag-and-drop, actualizaciones optimistas y una API REST por detrás."
+    }
+  }
+];
+
+class Component extends DCLogic {
+  state = { lang: this.props.defaultLang === "es" ? "es" : "en", menuOpen: false, sent: false, errors: {} };
+
+  componentDidMount() {
+    this._resize = () => this.forceUpdate();
+    window.addEventListener("resize", this._resize);
+    if (this.props.motion === false) return;
+    if (window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    this._boot();
+  }
+
+  componentWillUnmount() {
+    if (this._resize) window.removeEventListener("resize", this._resize);
+    clearTimeout(this._safety);
+    if (window.ScrollTrigger) window.ScrollTrigger.getAll().forEach((s) => s.kill());
+  }
+
+  _load(src) {
+    return new Promise((resolve) => {
+      const found = document.querySelector('script[src="' + src + '"]');
+      if (found) { found.dataset.loaded ? resolve() : found.addEventListener("load", resolve); return; }
+      const s = document.createElement("script");
+      s.src = src;
+      s.onload = () => { s.dataset.loaded = "1"; resolve(); };
+      s.onerror = () => resolve();
+      document.head.appendChild(s);
+    });
+  }
+
+  async _boot() {
+    const base = "https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/";
+    await this._load(base + "gsap.min.js");
+    await this._load(base + "ScrollTrigger.min.js");
+    const g = window.gsap;
+    if (!g) return;
+    if (window.ScrollTrigger) g.registerPlugin(window.ScrollTrigger);
+    this._gsap = g;
+    setTimeout(() => this._animate(g), 60);
+  }
+
+  _animate(g) {
+    const q = (sel) => Array.from(document.querySelectorAll(sel));
+    const ST = window.ScrollTrigger;
+
+    const tl = g.timeline({ defaults: { ease: "power4.out" } });
+    tl.from("[data-hero-line]", { yPercent: 112, duration: 0.7, stagger: 0.06 })
+      .from("[data-hero-copy]", { y: 20, opacity: 0, duration: 0.5, stagger: 0.06 }, "-=0.42")
+      .from("[data-hero-fig]", { clipPath: "inset(0% 0% 100% 0%)", duration: 0.75, ease: "power3.inOut" }, "-=0.75")
+      .from("[data-hero-fig] + figcaption", { opacity: 0, duration: 0.35 }, "-=0.2");
+
+    const scrollReveal = (els, vars) => {
+      els.forEach((el, i) => {
+        const cfg = Object.assign({ y: 26, opacity: 0, duration: 0.55, ease: "power3.out", delay: (i % 3) * 0.06 }, vars || {});
+        if (ST) cfg.scrollTrigger = { trigger: el, start: "top 88%", once: true };
+        g.from(el, cfg);
+      });
+    };
+
+    scrollReveal(q("[data-spec-strip] > div"), { y: 16, duration: 0.42 });
+    scrollReveal(q("#about [data-reveal], #contact [data-reveal]"));
+
+    q("#projects article").forEach((card, i) => {
+      const corners = card.querySelectorAll(".corner");
+      const tlCard = g.timeline(
+        ST ? { scrollTrigger: { trigger: card, start: "top 88%", once: true } } : {}
+      );
+      tlCard
+        .fromTo(card,
+          { clipPath: "polygon(0% 0%, 0% 0%, 0% 0%)", opacity: 1 },
+          { clipPath: "polygon(0% 0%, 230% 0%, 0% 230%)", duration: 0.62, ease: "power3.inOut", delay: i * 0.09 })
+        .fromTo(corners, { opacity: 0, scale: 0.4 }, { opacity: 1, scale: 1, duration: 0.24, stagger: 0.04, ease: "back.out(2.4)" }, "-=0.24")
+        .set(card, { clearProps: "clipPath" });
+    });
+
+    q("[data-h2]").forEach((h) => {
+      const rule = h.nextElementSibling;
+      if (!rule) return;
+      const cfg = { scaleX: 0, transformOrigin: "left center", duration: 0.7, ease: "power3.inOut" };
+      if (ST) cfg.scrollTrigger = { trigger: h, start: "top 88%", once: true };
+      g.from(rule, cfg);
+    });
+
+    q("#projects article").forEach((card) => {
+      const img = card.querySelector("img");
+      if (!img || !ST) return;
+      g.fromTo(img, { scale: 1.14 }, { scale: 1, ease: "none", scrollTrigger: { trigger: card, start: "top bottom", end: "bottom top", scrub: true } });
+    });
+
+    if (ST) {
+      const fig = document.querySelector("[data-hero-fig]");
+      if (fig && window.innerWidth > 900) {
+        g.to(fig, { y: -46, ease: "none", scrollTrigger: { trigger: fig, start: "top bottom", end: "bottom top", scrub: 0.6 } });
+      }
+    }
+
+    this._safety = setTimeout(() => {
+      const stuck = q("[data-reveal], #projects article, [data-spec-strip] > div, [data-hero-fig]").filter(
+        (el) => parseFloat(getComputedStyle(el).opacity) < 0.99
+      );
+      if (stuck.length) g.to(stuck, { opacity: 1, y: 0, clearProps: "clipPath", duration: 0.4 });
+      const clipped = q("#projects article").filter((el) => {
+        const c = getComputedStyle(el).clipPath;
+        return c && c.indexOf("polygon") === 0 && c.indexOf("230%") === -1;
+      });
+      clipped.forEach((el) => {
+        g.timeline()
+          .to(el, { clipPath: "polygon(0% 0%, 230% 0%, 0% 230%)", duration: 0.62, ease: "power3.inOut" })
+          .fromTo(el.querySelectorAll(".corner"), { opacity: 0, scale: 0.4 }, { opacity: 1, scale: 1, duration: 0.24, stagger: 0.04, ease: "back.out(2.4)" }, "-=0.2")
+          .set(el, { clearProps: "clipPath" });
+      });
+    }, 2600);
+  }
+
+  t() { return COPY[this.state.lang]; }
+
+  langBtn(active) {
+    return {
+      background: active ? "var(--color-accent)" : "transparent",
+      color: "var(--color-text)",
+      border: "none",
+      padding: "7px 13px",
+      fontFamily: "var(--font-heading)",
+      fontWeight: 600,
+      fontSize: "13px",
+      letterSpacing: "0.1em",
+      cursor: "pointer",
+      transition: "background .18s ease, color .18s ease"
+    };
+  }
+
+  validate(form) {
+    const t = this.t();
+    const name = form.name.value.trim();
+    const mail = form.mail.value.trim();
+    const msg = form.message.value.trim();
+    const errors = {};
+    if (!name) errors.name = t.errRequired;
+    if (!mail) errors.mail = t.errRequired;
+    else if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(mail)) errors.mail = t.errMail;
+    if (!msg) errors.message = t.errRequired;
+    else if (msg.length < 10) errors.message = t.errShort;
+    return errors;
+  }
+
+  renderVals() {
+    const t = this.t();
+    const lang = this.state.lang;
+    const e = this.state.errors;
+    return {
+      t,
+      skills: ["JavaScript", "TypeScript", "React", "Node.js", "PHP", "MySQL", "PostgreSQL", "Git", "Figma", "REST APIs"],
+      projects: PROJECTS.map((p) => ({
+        n: p.n, title: p.title, img: p.img, stack: p.stack,
+        desc: p.desc[lang],
+        hasImage: !!p.img, noImage: !p.img,
+        live: "#", code: "#"
+      })),
+      enBtnStyle: this.langBtn(lang === "en"),
+      esBtnStyle: this.langBtn(lang === "es"),
+      setEn: () => this.setState({ lang: "en" }),
+      setEs: () => this.setState({ lang: "es" }),
+      openMenu: () => this.setState({ menuOpen: true }),
+      closeMenu: () => this.setState({ menuOpen: false }),
+      sent: this.state.sent,
+      notSent: !this.state.sent,
+      errName: e.name || "",
+      errMail: e.mail || "",
+      errMsg: e.message || "",
+      resetForm: () => this.setState({ sent: false, errors: {} }),
+      onSubmit: (ev) => {
+        ev.preventDefault();
+        const errors = this.validate(ev.target);
+        if (Object.keys(errors).length) { this.setState({ errors }); return; }
+        this.setState({ errors: {}, sent: true });
+      },
+      scrimStyle: {
+        position: "fixed", inset: 0, zIndex: 45,
+        background: "rgba(29,31,32,0.5)",
+        opacity: this.state.menuOpen ? 1 : 0,
+        pointerEvents: this.state.menuOpen ? "auto" : "none",
+        transition: "opacity .3s ease"
+      },
+      drawerStyle: {
+        position: "fixed", top: 0, right: 0, bottom: 0, zIndex: 50,
+        width: "min(340px, 86vw)",
+        background: "var(--color-bg)",
+        borderLeft: "1px solid var(--color-divider)",
+        boxShadow: "var(--shadow-lg)",
+        transform: this.state.menuOpen ? "translateX(0)" : "translateX(102%)",
+        transition: "transform .34s cubic-bezier(.2,.7,.3,1)",
+        display: "flex", flexDirection: "column"
+      }
+    };
+  }
+}
+
+</script>
+</body>
+</html>

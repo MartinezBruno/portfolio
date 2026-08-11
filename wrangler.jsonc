@@ -1,0 +1,26 @@
+{
+  // Cloudflare Workers config, merged into the Astro-generated build config
+  // (dist/server/wrangler.json). The @astrojs/cloudflare adapter injects
+  // `main`, `assets`, and the SESSION/IMAGES bindings automatically — only the
+  // project-specific bindings, vars, and flags belong here.
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "personal-portfolio",
+  "compatibility_date": "2026-04-15",
+  // node:os (mimetext) + path (mime-types) need Node compat in workerd.
+  "compatibility_flags": ["nodejs_compat"],
+
+  // Non-secret config for the contact endpoint (src/pages/api/contact.ts).
+  "vars": {
+    "CONTACT_FROM": "form@bmartinez.dev",
+    "CONTACT_TO": "bmartinez.fullstack@gmail.com"
+  },
+
+  // Contact form sender. The destination MUST be a verified address in
+  // Cloudflare Email Routing (verify bmartinez.fullstack@gmail.com once).
+  "send_email": [
+    {
+      "name": "SEB",
+      "destination_address": "bmartinez.fullstack@gmail.com"
+    }
+  ]
+}

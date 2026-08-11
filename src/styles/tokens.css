@@ -1,0 +1,59 @@
+/*
+  Design tokens — the Industry design system's token layer, re-tinted for this
+  portfolio: the steel-blue accent is replaced by yellow #FEDA0A and the cool
+  ground by warm bone #F2EFE6 (the override block from the prototype's :root).
+  Take every color / font / spacing value from these variables.
+
+  Contrast rule (from the handoff): raw #FEDA0A is only ~1.4:1 on the bone
+  ground, so it is used ONLY for fills, rules, borders and text on the dark
+  contact band. Accent-colored text on the light ground MUST use
+  --color-accent-800 (~6.9:1).
+*/
+:root {
+  /* — core roles — */
+  --color-bg: #f2efe6;        /* page ground (warm bone) */
+  --color-surface: #e9e5d9;   /* raised / tinted surfaces */
+  --color-text: #1e1e1c;      /* body + headings (~15:1 on ground) */
+  --color-divider: color-mix(in srgb, #1e1e1c 18%, transparent);
+  --color-neutral-900: #222222; /* contact band ground */
+
+  /* — accent (yellow) — a single role with a full 100–900 ramp — */
+  --color-accent: #feda0a;
+  --color-accent-100: #fffbe6;  /* hover tint */
+  --color-accent-200: #fff3b8;
+  --color-accent-300: #ffe97a;
+  --color-accent-400: #fee23f;  /* primary button hover */
+  --color-accent-500: #feda0a;
+  --color-accent-600: #d9b800;  /* primary button active, tag-outline border */
+  --color-accent-700: #a58c00;  /* too weak for text on this ground — avoid */
+  --color-accent-800: #6f5e00;  /* all accent-colored text on the light ground */
+  --color-accent-900: #4a3f00;  /* link hover */
+
+  /* — feedback — */
+  --color-error: #ffb4b4;       /* error text on the dark contact band */
+
+  /* — type — Barlow Condensed headings over Barlow body (self-hosted) — */
+  --font-heading: "Barlow Condensed", system-ui, sans-serif;
+  --font-body: "Barlow", system-ui, sans-serif;
+
+  /* — spacing (Industry's 0.85× scale; components mostly use exact px) — */
+  --space-1: 3.4px;
+  --space-2: 6.8px;
+  --space-3: 10.2px;
+  --space-4: 13.6px;
+  --space-6: 20.4px;
+  --space-8: 27.2px;
+
+  /* — radius — this design is square everywhere; kept for completeness — */
+  --radius-sm: 0;
+  --radius-md: 0;
+  --radius-lg: 0;
+
+  /* — elevation — only --shadow-lg is used (the mobile drawer) — */
+  --shadow-sm: 0 1px 2px color-mix(in srgb, #222222 14%, transparent);
+  --shadow-md: 0 3px 10px color-mix(in srgb, #222222 16%, transparent);
+  --shadow-lg: 0 12px 32px color-mix(in srgb, #222222 22%, transparent);
+
+  /* sticky header height — used for scroll-margin on section targets */
+  --header-h: 62px;
+}

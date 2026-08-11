@@ -1,0 +1,134 @@
+---
+import type { Lang } from '../i18n/ui';
+import { useTranslations, homePath } from '../i18n/utils';
+import Icon from './Icon.astro';
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+---
+<header class="site-header">
+  <div class="bar">
+    <a href="#top" class="brand" aria-label="Bruno Martinez">
+      <span class="chev">&lt;</span>Bruno<span class="chev">/&gt;</span>
+    </a>
+
+    <nav class="desktop-nav" aria-label={t('nav.menu')}>
+      <a href="#about" class="nav-link">{t('nav.about')}</a>
+      <a href="#projects" class="nav-link">{t('nav.projects')}</a>
+      <a href="#contact" class="nav-link">{t('nav.contact')}</a>
+      <div class="lang-box" role="group" aria-label={t('nav.language')}>
+        <a href={homePath('en')} class:list={['lang-opt', { active: lang === 'en' }]}
+          aria-current={lang === 'en' ? 'true' : undefined}>EN</a>
+        <a href={homePath('es')} class:list={['lang-opt', { active: lang === 'es' }]}
+          aria-current={lang === 'es' ? 'true' : undefined}>ES</a>
+      </div>
+    </nav>
+
+    <button
+      type="button"
+      class="burger"
+      data-menu-toggle
+      aria-label={t('nav.openMenu')}
+      aria-controls="mobile-drawer"
+      aria-expanded="false"
+    >
+      <Icon name="menu" size={20} />
+    </button>
+  </div>
+</header>
+
+<style>
+  .site-header {
+    position: sticky;
+    top: 0;
+    z-index: 40;
+    background: color-mix(in srgb, var(--color-bg) 88%, transparent);
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid var(--color-divider);
+  }
+  .bar {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 24px;
+    height: var(--header-h);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+  }
+
+  .brand {
+    font-family: var(--font-heading);
+    font-weight: 700;
+    font-size: 22px;
+    letter-spacing: -0.01em;
+    color: var(--color-text);
+    text-decoration: none;
+    display: flex;
+    align-items: baseline;
+    gap: 1px;
+  }
+  .brand:hover { text-decoration: none; color: var(--color-text); }
+  .chev { color: var(--color-accent-800); }
+
+  .desktop-nav {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+  .nav-link {
+    font-family: var(--font-heading);
+    font-weight: 600;
+    font-size: 15px;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+    color: var(--color-text);
+    text-decoration: none;
+    padding: 8px 14px;
+  }
+  .nav-link:hover {
+    color: var(--color-accent-800);
+    background: var(--color-accent-100);
+    text-decoration: none;
+  }
+
+  .lang-box {
+    display: flex;
+    border: 1px solid var(--color-divider);
+    margin-left: 12px;
+  }
+  .lang-opt {
+    font-family: var(--font-heading);
+    font-weight: 600;
+    font-size: 13px;
+    letter-spacing: 0.1em;
+    color: var(--color-text);
+    text-decoration: none;
+    padding: 7px 13px;
+    background: transparent;
+    transition: background 0.18s ease, color 0.18s ease;
+  }
+  .lang-opt:hover { text-decoration: none; color: var(--color-text); }
+  .lang-opt.active { background: var(--color-accent); color: var(--color-text); }
+
+  .burger {
+    display: none;
+    width: 40px;
+    height: 40px;
+    align-items: center;
+    justify-content: center;
+    background: transparent;
+    border: 1px solid var(--color-divider);
+    border-radius: 0;
+    cursor: pointer;
+    color: var(--color-text);
+  }
+
+  @media (max-width: 900px) {
+    .desktop-nav { display: none; }
+    .burger { display: flex; }
+  }
+</style>

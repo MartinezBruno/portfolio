@@ -1,0 +1,37 @@
+---
+import type { Lang } from '../i18n/ui';
+import { useTranslations } from '../i18n/utils';
+import { projects } from '../data/projects';
+import SectionHeader from './SectionHeader.astro';
+import ProjectCard from './ProjectCard.astro';
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+---
+<section id="projects" class="projects">
+  <SectionHeader index="02" title={t('projects.title')} />
+
+  <div class="projects-grid" data-projects-grid>
+    {projects.map((project) => <ProjectCard project={project} lang={lang} />)}
+  </div>
+</section>
+
+<style>
+  .projects {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 110px 24px 0;
+  }
+  .projects-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 28px;
+  }
+
+  @media (max-width: 900px) {
+    .projects-grid { grid-template-columns: 1fr; }
+  }
+</style>

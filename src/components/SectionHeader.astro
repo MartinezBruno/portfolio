@@ -1,0 +1,54 @@
+---
+/*
+  Section header row: index number · H2 · a rule that expands to fill.
+  The rule is intentionally the H2's immediate next sibling so motion.ts can
+  animate it (scaleX from left). `dark` re-colors it for the contact band.
+*/
+interface Props {
+  index: string;
+  title: string;
+  dark?: boolean;
+}
+const { index, title, dark = false } = Astro.props;
+---
+<div class:list={['sec-head', { dark }]}>
+  <span class="idx">{index}</span>
+  <h2 class="h2" data-h2>{title}</h2>
+  <span class="rule"></span>
+</div>
+
+<style>
+  .sec-head {
+    display: flex;
+    align-items: baseline;
+    gap: 16px;
+    margin-bottom: 42px;
+  }
+  .idx {
+    font-family: var(--font-heading);
+    font-size: 13px;
+    letter-spacing: 0.2em;
+    color: var(--color-accent-800);
+  }
+  .h2 {
+    font-family: var(--font-heading);
+    font-weight: 700;
+    font-size: 48px;
+    letter-spacing: -0.01em;
+    text-transform: uppercase;
+    margin: 0;
+  }
+  .rule {
+    flex: 1;
+    height: 1px;
+    background: var(--color-divider);
+  }
+
+  .sec-head.dark .idx { color: var(--color-accent); }
+  .sec-head.dark .h2 { color: #f2f2f3; }
+  .sec-head.dark .rule { background: rgba(255, 255, 255, 0.22); }
+
+  @media (max-width: 900px) {
+    .h2 { font-size: 34px; }
+  }
+</style>

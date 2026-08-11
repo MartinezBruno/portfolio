@@ -1,0 +1,112 @@
+---
+import type { Lang } from '../i18n/ui';
+import { useTranslations } from '../i18n/utils';
+
+// Self-hosted fonts (Barlow + Barlow Condensed, weights used by the design).
+import '@fontsource/barlow/400.css';
+import '@fontsource/barlow/500.css';
+import '@fontsource/barlow/600.css';
+import '@fontsource/barlow/700.css';
+import '@fontsource/barlow-condensed/400.css';
+import '@fontsource/barlow-condensed/500.css';
+import '@fontsource/barlow-condensed/600.css';
+import '@fontsource/barlow-condensed/700.css';
+
+import '../styles/tokens.css';
+import '../styles/global.css';
+
+interface Props {
+  lang: Lang;
+  title?: string;
+  description?: string;
+}
+
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+
+const defaults: Record<Lang, { title: string; description: string }> = {
+  en: {
+    title: 'Bruno Martinez — Software Developer',
+    description:
+      'Bruno Martinez is a full-stack software developer building web products end to end — JavaScript, React, PHP and Node.',
+  },
+  es: {
+    title: 'Bruno Martinez — Desarrollador de Software',
+    description:
+      'Bruno Martinez es desarrollador full-stack: construye productos web de punta a punta con JavaScript, React, PHP y Node.',
+  },
+};
+
+const title = Astro.props.title ?? defaults[lang].title;
+const description = Astro.props.description ?? defaults[lang].description;
+
+const site = Astro.site ?? new URL('https://bmartinez.dev');
+const canonical = new URL(Astro.url.pathname, site);
+const ogImage = new URL('/og-image.png', site);
+
+// hreflang alternates for the two locales.
+const alternates = [
+  { hreflang: 'en', href: new URL('/', site).href },
+  { hreflang: 'es', href: new URL('/es/', site).href },
+  { hreflang: 'x-default', href: new URL('/', site).href },
+];
+---
+<!doctype html>
+<html lang={lang}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <meta name="generator" content={Astro.generator} />
+    <meta name="theme-color" content="#f2efe6" />
+
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical.href} />
+    {alternates.map((a) => (
+      <link rel="alternate" hreflang={a.hreflang} href={a.href} />
+    ))}
+
+    <!-- Open Graph / Twitter -->
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Bruno Martinez" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical.href} />
+    <meta property="og:image" content={ogImage.href} />
+    <meta property="og:locale" content={lang === 'es' ? 'es_ES' : 'en_US'} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImage.href} />
+  </head>
+  <body>
+    <a href="#top" class="skip-link">{t('nav.skip')}</a>
+    <slot />
+  </body>
+</html>
+
+<style>
+  /* Skip link: off-screen until keyboard-focused. */
+  .skip-link {
+    position: fixed;
+    top: 8px;
+    left: 8px;
+    z-index: 100;
+    transform: translateY(-160%);
+    background: var(--color-accent);
+    color: var(--color-text);
+    font-family: var(--font-heading);
+    font-weight: 600;
+    font-size: 14px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    padding: 10px 16px;
+    border: 1px solid var(--color-text);
+    transition: transform 0.18s ease;
+  }
+  .skip-link:focus {
+    transform: translateY(0);
+    text-decoration: none;
+  }
+</style>

@@ -1,0 +1,31 @@
+---
+import type { Lang } from '../i18n/ui';
+import { useTranslations } from '../i18n/utils';
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+---
+<footer class="site-footer">
+  <span>© 2026 Bruno Martinez</span>
+  <span>{t('footer.note')}</span>
+</footer>
+
+<style>
+  .site-footer {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 28px 24px 40px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    justify-content: space-between;
+    font-family: var(--font-heading);
+    font-size: 13px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: color-mix(in srgb, var(--color-text) 55%, transparent);
+  }
+</style>

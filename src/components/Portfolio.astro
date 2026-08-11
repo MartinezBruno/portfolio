@@ -1,0 +1,32 @@
+---
+import type { Lang } from '../i18n/ui';
+import Header from './Header.astro';
+import MobileDrawer from './MobileDrawer.astro';
+import Hero from './Hero.astro';
+import About from './About.astro';
+import Projects from './Projects.astro';
+import Contact from './Contact.astro';
+import Footer from './Footer.astro';
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+---
+<Header lang={lang} />
+<MobileDrawer lang={lang} />
+
+<main id="top">
+  <Hero lang={lang} />
+  <About lang={lang} />
+  <Projects lang={lang} />
+  <Contact lang={lang} />
+</main>
+
+<Footer lang={lang} />
+
+<script>
+  import '../scripts/drawer';
+  import '../scripts/contact-form';
+  import '../scripts/motion';
+</script>

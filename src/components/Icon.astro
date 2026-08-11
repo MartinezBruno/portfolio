@@ -1,0 +1,34 @@
+---
+/*
+  Inline Lucide icons (stroke-width 1.5) used across the design — no icon
+  dependency. Paths lifted from the prototype's inline SVGs.
+*/
+interface Props {
+  name: 'menu' | 'x' | 'arrow-up-right' | 'download' | 'check';
+  size?: number;
+  class?: string;
+}
+const { name, size = 20, class: className } = Astro.props;
+
+const paths: Record<Props['name'], string> = {
+  menu: 'M3 6h18M3 12h18M3 18h18',
+  x: 'M18 6 6 18M6 6l12 12',
+  'arrow-up-right': 'M7 17 17 7M9 7h8v8',
+  download: 'M12 4v12M7 12l5 5 5-5M5 20h14',
+  check: 'm5 13 4.5 4.5L19 7',
+};
+---
+<svg
+  width={size}
+  height={size}
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="1.5"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+  aria-hidden="true"
+  class={className}
+>
+  <path d={paths[name]} />
+</svg>
