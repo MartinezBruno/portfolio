@@ -72,9 +72,9 @@ export const skills: string[] = [
   'REST APIs',
 ];
 
-/** Contact links (LinkedIn is real; GitHub and CV are placeholders today). */
+/** Contact links — all real (CV served from /public). */
 export const contactLinks = {
   linkedin: 'https://www.linkedin.com/in/bmartinez-dev/',
-  github: '#',
-  cv: '#',
+  github: 'https://github.com/MartinezBruno',
+  cv: '/bruno-martinez-cv.pdf',
 };
