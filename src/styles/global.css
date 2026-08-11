@@ -79,6 +79,12 @@ a:hover { color: var(--color-accent-900); text-decoration: underline; }
 .blueprint > .corner.bl { bottom: -6px; left: -6px; }
 .blueprint > .corner.br { bottom: -6px; right: -6px; }
 
+/* On the dark contact band the default (dark) corner marks vanish against
+   --color-neutral-900 — repaint them light so the "+" registration marks read. */
+.contact .blueprint > .corner {
+  color: color-mix(in srgb, #f2f2f3 60%, transparent);
+}
+
 /* ─── Buttons ─── */
 .btn {
   display: inline-flex;
