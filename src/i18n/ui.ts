@@ -70,6 +70,9 @@ export const ui = {
     'contact.errMail': 'Enter a valid email address.',
     'contact.errShort': 'Tell me a little more — 10 characters minimum.',
     'contact.errServer': 'Something went wrong sending your message. Please try again.',
+    'contact.errLong': 'This is a little too long.',
+    'contact.errCaptcha': 'Please complete the verification and try again.',
+    'contact.errRate': 'Too many attempts. Please wait a few minutes and try again.',
 
     'footer.note': 'Designed & developed by Bruno Martinez',
   },
@@ -128,6 +131,9 @@ export const ui = {
     'contact.errMail': 'Ingresá un mail válido.',
     'contact.errShort': 'Contame un poco más — mínimo 10 caracteres.',
     'contact.errServer': 'Hubo un problema al enviar tu mensaje. Probá de nuevo.',
+    'contact.errLong': 'Esto es un poco demasiado largo.',
+    'contact.errCaptcha': 'Completá la verificación e intentá de nuevo.',
+    'contact.errRate': 'Demasiados intentos. Esperá unos minutos y probá otra vez.',
 
     'footer.note': 'Diseñado y desarrollado por Bruno Martinez',
   },

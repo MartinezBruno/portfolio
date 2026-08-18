@@ -10,6 +10,10 @@ interface Props {
 }
 const { lang } = Astro.props;
 const t = useTranslations(lang);
+
+// Public Turnstile site key — safe to expose in client HTML. The secret lives
+// as a Worker secret (TURNSTILE_SECRET), never in the repo.
+const TURNSTILE_SITEKEY = '0x4AAAAAAETQP9CnbWpW2Z1B';
 ---
 <section id="contact" class="contact">
   <div class="inner">
@@ -42,21 +46,23 @@ const t = useTranslations(lang);
           data-err-mail={t('contact.errMail')}
           data-err-short={t('contact.errShort')}
           data-err-server={t('contact.errServer')}
+          data-err-captcha={t('contact.errCaptcha')}
+          data-err-rate={t('contact.errRate')}
           novalidate
         >
           <div class="field">
             <label for="cf-name">{t('contact.fieldName')}</label>
-            <input id="cf-name" name="name" type="text" autocomplete="name" required />
+            <input id="cf-name" name="name" type="text" autocomplete="name" maxlength="100" required />
             <span class="err" data-error="name" aria-live="polite"></span>
           </div>
           <div class="field">
             <label for="cf-mail">{t('contact.fieldMail')}</label>
-            <input id="cf-mail" name="mail" type="email" autocomplete="email" required />
+            <input id="cf-mail" name="mail" type="email" autocomplete="email" maxlength="254" required />
             <span class="err" data-error="mail" aria-live="polite"></span>
           </div>
           <div class="field">
             <label for="cf-msg">{t('contact.fieldMsg')}</label>
-            <textarea id="cf-msg" name="message" rows="5" required></textarea>
+            <textarea id="cf-msg" name="message" rows="5" maxlength="5000" required></textarea>
             <span class="err" data-error="message" aria-live="polite"></span>
           </div>
 
@@ -67,6 +73,14 @@ const t = useTranslations(lang);
           </div>
 
           <p class="form-error" data-form-error role="alert" hidden></p>
+
+          <div
+            class="cf-turnstile"
+            data-sitekey={TURNSTILE_SITEKEY}
+            data-theme="dark"
+            data-language={lang}
+            data-refresh-expired="auto"
+          ></div>
 
           <button
             type="submit"
@@ -152,6 +166,8 @@ const t = useTranslations(lang);
     flex-direction: column;
     gap: 20px;
   }
+  /* display:flex outranks the UA [hidden] rule, so hide it explicitly. */
+  .form[hidden] { display: none; }
   .field {
     display: flex;
     flex-direction: column;

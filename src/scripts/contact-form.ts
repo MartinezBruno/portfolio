@@ -19,6 +19,8 @@ if (form) {
     mail: form.dataset.errMail ?? 'Enter a valid email address.',
     short: form.dataset.errShort ?? 'Please write a little more.',
     server: form.dataset.errServer ?? 'Something went wrong. Please try again.',
+    captcha: form.dataset.errCaptcha ?? 'Please complete the verification.',
+    rate: form.dataset.errRate ?? 'Too many attempts. Please try again later.',
   };
   const lang = form.dataset.lang ?? 'en';
   const emailRe = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
@@ -111,6 +113,15 @@ if (form) {
       return;
     }
 
+    // Cloudflare Turnstile injects a hidden input with the token once solved.
+    const token = (
+      form.querySelector<HTMLInputElement>('[name="cf-turnstile-response"]')?.value ?? ''
+    ).trim();
+    if (!token) {
+      showFormError(msgs.captcha);
+      return;
+    }
+
     setBusy(true);
     try {
       const res = await fetch('/api/contact', {
@@ -121,6 +132,7 @@ if (form) {
           email: values.mail,
           message: values.message,
           company: honeypot,
+          token,
           lang,
         }),
       });
@@ -128,6 +140,10 @@ if (form) {
 
       if (res.ok && data && (data as { ok?: boolean }).ok) {
         showSuccess();
+      } else if (res.status === 429) {
+        showFormError(msgs.rate);
+      } else if (data && (data as { errors?: Record<string, string> }).errors?.captcha) {
+        showFormError(msgs.captcha);
       } else if (data && (data as { errors?: Record<string, string> }).errors) {
         // Server sends field codes, not localized text; re-derive localized
         // messages from the current values (rules are identical).
@@ -141,6 +157,8 @@ if (form) {
       showFormError(msgs.server);
     } finally {
       setBusy(false);
+      // Turnstile tokens are single-use — reset so the next submit gets a fresh one.
+      (window as unknown as { turnstile?: { reset: () => void } }).turnstile?.reset();
     }
   });
 
