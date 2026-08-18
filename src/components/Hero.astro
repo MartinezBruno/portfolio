@@ -1,7 +1,7 @@
 ---
-import type { Lang } from '../i18n/ui';
-import { useTranslations } from '../i18n/utils';
-import SpecStrip from './SpecStrip.astro';
+import type { Lang } from "../i18n/ui";
+import { useTranslations } from "../i18n/utils";
+import SpecStrip from "./SpecStrip.astro";
 
 interface Props {
   lang: Lang;
@@ -9,33 +9,44 @@ interface Props {
 const { lang } = Astro.props;
 const t = useTranslations(lang);
 ---
+
 <section class="hero" aria-label="Bruno Martinez">
   <div class="hero-grid" data-hero-grid>
     <div class="hero-copy-col">
       <h1 class="h1" data-h1>
         <span class="mask"><span class="line" data-hero-line>Bruno</span></span>
-        <span class="mask"><span class="line" data-hero-line>Martinez</span></span>
+        <span class="mask"
+          ><span class="line" data-hero-line>Martinez</span></span
+        >
       </h1>
-      <p class="role" data-hero-copy>{t('hero.role')}</p>
-      <p class="blurb" data-hero-copy>{t('hero.blurb')}</p>
+      <p class="role" data-hero-copy>{t("hero.role")}</p>
+      <p class="blurb" data-hero-copy>{t("hero.blurb")}</p>
       <div class="cta-row" data-hero-copy>
         <a class="btn btn-primary blueprint cta" href="#contact">
-          <i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
-          {t('hero.ctaHire')}
+          <i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"
+          ></i><i class="corner br"></i>
+          {t("hero.ctaHire")}
         </a>
-        <a class="btn btn-secondary cta" href="#projects">{t('hero.ctaWork')}</a>
+        <a class="btn btn-secondary cta" href="#projects">{t("hero.ctaWork")}</a
+        >
       </div>
     </div>
 
     <figure class="figure">
       <div class="fig-frame blueprint" data-hero-fig>
-        <i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
+        <i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"
+        ></i><i class="corner br"></i>
         <div class="fig-box">
-          <img src="/images/hero-portrait.png" alt="Bruno Martinez" width="800" height="1000" />
+          <img
+            src="/images/hero-portrait.jpg"
+            alt="Bruno Martinez"
+            width="800"
+            height="1000"
+          />
         </div>
       </div>
       <figcaption class="figcap">
-        <span>FIG. 01 — B. Martinez</span><span>{t('hero.figScale')}</span>
+        <span>FIG. 01 — B. Martinez</span><span>{t("hero.figScale")}</span>
       </figcaption>
     </figure>
   </div>
@@ -47,41 +58,51 @@ const t = useTranslations(lang);
   .hero {
     max-width: 1200px;
     margin: 0 auto;
-    padding: 84px 24px 0;
+    padding: 48px 24px 0;
+  }
+  @media (width >= 768px) {
+    .hero {
+      padding: 72px 24px 0;
+    }
   }
   .hero-grid {
     display: grid;
-    grid-template-columns: 1.35fr 1fr;
-    gap: 56px;
+    grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr);
+    gap: clamp(24px, 4.5vw, 56px);
     align-items: start;
   }
 
   .h1 {
     font-family: var(--font-heading);
     font-weight: 700;
-    font-size: 92px;
+    font-size: clamp(44px, 8.6vw, 96px);
     line-height: 0.92;
     letter-spacing: -0.02em;
     text-transform: uppercase;
-    margin: 0 0 20px;
+    margin: 0 0 clamp(12px, 1.6vw, 20px);
   }
-  .mask { display: block; overflow: hidden; }
-  .line { display: block; }
+  .mask {
+    display: block;
+    overflow: hidden;
+  }
+  .line {
+    display: block;
+  }
 
   .role {
     font-family: var(--font-heading);
     font-weight: 600;
-    font-size: 24px;
+    font-size: clamp(19px, 2.4vw, 24px);
     letter-spacing: 0.02em;
     text-transform: uppercase;
     color: var(--color-accent-800);
-    margin: 0 0 20px;
+    margin: 0 0 clamp(12px, 1.6vw, 20px);
   }
   .blurb {
-    font-size: 17px;
+    font-size: clamp(15px, 1.5vw, 17px);
     line-height: 1.6;
-    max-width: 46ch;
-    margin: 0 0 30px;
+    max-width: min(46ch, 100%);
+    margin: 0 0 clamp(20px, 2.6vw, 30px);
     color: color-mix(in srgb, var(--color-text) 78%, transparent);
   }
 
@@ -97,7 +118,9 @@ const t = useTranslations(lang);
     text-transform: uppercase;
   }
 
-  .figure { margin: 0; }
+  .figure {
+    margin: 0;
+  }
   .fig-frame {
     padding: 10px;
     background: transparent;
@@ -116,22 +139,25 @@ const t = useTranslations(lang);
   .figcap {
     display: flex;
     justify-content: space-between;
+    gap: 8px;
     font-family: var(--font-heading);
     letter-spacing: 0.12em;
     text-transform: uppercase;
-    font-size: 12px;
+    font-size: clamp(10px, 1.1vw, 12px);
     margin-top: 10px;
   }
 
-  @media (max-width: 900px) {
+  @media (max-width: 560px) {
     .hero-grid {
       grid-template-columns: 1fr;
-      gap: 36px;
+      gap: 28px;
     }
-    .figure { max-width: 320px; }
-    .h1 { font-size: 58px; }
-  }
-  @media (max-width: 520px) {
-    .h1 { font-size: 46px; }
+    .figure {
+      max-width: 100%;
+    }
+    .cta {
+      flex: 1 1 auto;
+      text-align: center;
+    }
   }
 </style>

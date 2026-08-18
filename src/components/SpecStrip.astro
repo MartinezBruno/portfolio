@@ -32,7 +32,7 @@ const t = useTranslations(lang);
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     border: 1px solid var(--color-divider);
-    margin-top: 64px;
+    margin-top: clamp(36px, 6vw, 64px);
   }
   .cell {
     padding: 20px 22px;
