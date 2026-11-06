@@ -15,14 +15,14 @@ const t = useTranslations(lang);
       <span class="chev">&lt;</span>Bruno<span class="chev">/&gt;</span>
     </a>
 
-    <nav class="desktop-nav" aria-label={t('nav.menu')}>
+    <nav class="desktop-nav" aria-label={t('nav.main')}>
       <a href="#about" class="nav-link">{t('nav.about')}</a>
       <a href="#projects" class="nav-link">{t('nav.projects')}</a>
       <a href="#contact" class="nav-link">{t('nav.contact')}</a>
       <div class="lang-box" role="group" aria-label={t('nav.language')}>
-        <a href={homePath('en')} class:list={['lang-opt', { active: lang === 'en' }]}
+        <a href={homePath('en')} hreflang="en" class:list={['lang-opt', { active: lang === 'en' }]}
           aria-current={lang === 'en' ? 'true' : undefined}>EN</a>
-        <a href={homePath('es')} class:list={['lang-opt', { active: lang === 'es' }]}
+        <a href={homePath('es')} hreflang="es" class:list={['lang-opt', { active: lang === 'es' }]}
           aria-current={lang === 'es' ? 'true' : undefined}>ES</a>
       </div>
     </nav>
@@ -116,8 +116,8 @@ const t = useTranslations(lang);
 
   .burger {
     display: none;
-    width: 40px;
-    height: 40px;
+    width: 44px;
+    height: 44px;
     align-items: center;
     justify-content: center;
     background: transparent;
@@ -125,6 +125,17 @@ const t = useTranslations(lang);
     border-radius: 0;
     cursor: pointer;
     color: var(--color-text);
+  }
+
+  /* Touch screens wide enough for the desktop nav (tablets in landscape):
+     same marks, finger-sized hit areas. */
+  @media (pointer: coarse) {
+    .nav-link,
+    .lang-opt {
+      display: inline-flex;
+      align-items: center;
+      min-height: 44px;
+    }
   }
 
   @media (max-width: 900px) {

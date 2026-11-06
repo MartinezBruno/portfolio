@@ -1,18 +1,22 @@
 /*
   Project data — lifted from the prototype's PROJECTS array. `desc` is
-  per-language; everything else is shared. Images live in /public/images.
-  An empty `img` renders the hatched "image pending" placeholder.
+  per-language; everything else is shared. Images live in src/assets/images
+  and are imported so astro:assets can resize and re-encode them at build.
+  A missing `img` renders the hatched "image pending" placeholder.
 
   TODO (content): real `live` / `code` URLs (all "#" today) and a screenshot
   for project 03 (Task Board).
 */
+import type { ImageMetadata } from 'astro';
 import type { Lang } from '../i18n/ui';
+import instablogsImg from '../assets/images/project-instablogs.png';
+import martImg from '../assets/images/project-mart.png';
 
 export interface Project {
   n: string;
   title: string;
-  /** Path under /public, or '' to render the "image pending" placeholder. */
-  img: string;
+  /** Imported screenshot, or undefined to render the "image pending" placeholder. */
+  img?: ImageMetadata;
   stack: string[];
   desc: Record<Lang, string>;
   live: string;
@@ -23,7 +27,7 @@ export const projects: Project[] = [
   {
     n: '01',
     title: 'InstaBlogs',
-    img: '/images/project-instablogs.png',
+    img: instablogsImg,
     stack: ['JavaScript', 'PHP', 'MySQL'],
     desc: {
       en: 'A publishing platform with a card-based feed, author profiles and a lightweight editor. Server-rendered, no framework.',
@@ -35,7 +39,7 @@ export const projects: Project[] = [
   {
     n: '02',
     title: 'Portfolio “Mart”',
-    img: '/images/project-mart.png',
+    img: martImg,
     stack: ['HTML', 'CSS', 'JavaScript'],
     desc: {
       en: 'A one-page portfolio built for a designer: scroll-driven sections, a hand-rolled gallery and a contact form that validates in place.',
@@ -47,7 +51,6 @@ export const projects: Project[] = [
   {
     n: '03',
     title: 'Task Board',
-    img: '',
     stack: ['React', 'Node', 'PostgreSQL'],
     desc: {
       en: 'A kanban board for small teams — drag-and-drop columns, optimistic updates and a REST API behind it.',

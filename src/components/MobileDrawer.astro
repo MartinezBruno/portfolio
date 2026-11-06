@@ -17,7 +17,7 @@ const links = [
 ---
 <div class="scrim" data-menu-scrim></div>
 
-<aside id="mobile-drawer" class="drawer" data-drawer aria-hidden="true" aria-label={t('nav.menu')}>
+<aside id="mobile-drawer" class="drawer" data-drawer aria-hidden="true" inert aria-label={t('nav.menu')}>
   <div class="drawer-head">
     <span class="kicker">{t('nav.menu')}</span>
     <button type="button" class="close" data-menu-close aria-label={t('nav.closeMenu')}>
@@ -36,9 +36,9 @@ const links = [
   <div class="drawer-foot">
     <span class="kicker">{t('nav.language')}</span>
     <div class="lang-box" role="group" aria-label={t('nav.language')}>
-      <a href={homePath('en')} class:list={['lang-opt', { active: lang === 'en' }]}
+      <a href={homePath('en')} hreflang="en" lang="en" class:list={['lang-opt', { active: lang === 'en' }]}
         aria-current={lang === 'en' ? 'true' : undefined}>English</a>
-      <a href={homePath('es')} class:list={['lang-opt', { active: lang === 'es' }]}
+      <a href={homePath('es')} hreflang="es" lang="es" class:list={['lang-opt', { active: lang === 'es' }]}
         aria-current={lang === 'es' ? 'true' : undefined}>Español</a>
     </div>
   </div>
@@ -94,8 +94,8 @@ const links = [
     border-bottom: 1px solid var(--color-divider);
   }
   .close {
-    width: 36px;
-    height: 36px;
+    width: 44px;
+    height: 44px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -151,7 +151,10 @@ const links = [
     letter-spacing: 0.1em;
     color: var(--color-text);
     text-decoration: none;
-    padding: 7px 13px;
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+    padding: 7px 16px;
     background: transparent;
   }
   .lang-opt:hover { text-decoration: none; color: var(--color-text); }

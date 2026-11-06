@@ -46,6 +46,8 @@ a:hover { color: var(--color-accent-900); text-decoration: underline; }
 /* Themed keyboard focus — accent-800 reads on the light ground; the dark
    contact band overrides this to raw accent in its own scoped styles. */
 :focus { outline: none; }
+/* Programmatic focus targets (the skip link's <main>) take focus without a ring. */
+[tabindex="-1"]:focus-visible { outline: none; }
 :focus-visible {
   outline: 2px solid var(--color-accent-800);
   outline-offset: 2px;

@@ -12,6 +12,13 @@ import '@fontsource/barlow-condensed/500.css';
 import '@fontsource/barlow-condensed/600.css';
 import '@fontsource/barlow-condensed/700.css';
 
+// The hero's display faces, preloaded so they race the stylesheet instead of
+// waiting behind it. Without this, on slow mobile connections the fallback
+// face wraps the CTA row and the hero jumps when Barlow Condensed swaps in.
+// `?url` resolves to the same hashed file the @fontsource CSS references.
+import condensed600 from '@fontsource/barlow-condensed/files/barlow-condensed-latin-600-normal.woff2?url';
+import condensed700 from '@fontsource/barlow-condensed/files/barlow-condensed-latin-700-normal.woff2?url';
+
 import '../styles/tokens.css';
 import '../styles/global.css';
 
@@ -59,6 +66,8 @@ const alternates = [
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <meta name="generator" content={Astro.generator} />
     <meta name="theme-color" content="#f2efe6" />
+    <link rel="preload" href={condensed600} as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href={condensed700} as="font" type="font/woff2" crossorigin />
 
     <title>{title}</title>
     <meta name="description" content={description} />
@@ -80,9 +89,8 @@ const alternates = [
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={ogImage.href} />
 
-    <!-- Cloudflare Turnstile (contact form anti-bot). Loads async; the widget
-         auto-renders the .cf-turnstile element in the contact section. -->
-    <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer is:inline></script>
+    <!-- Cloudflare Turnstile is loaded on demand by src/scripts/contact-form.ts
+         when the contact form nears the viewport or is focused. -->
   </head>
   <body>
     <a href="#top" class="skip-link">{t('nav.skip')}</a>

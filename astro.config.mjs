@@ -10,7 +10,9 @@ export default defineConfig({
   // on-demand (Worker) rendering with `export const prerender = false`.
   // Today that is only src/pages/api/contact.ts — every page stays static.
   output: 'static',
-  adapter: cloudflare(),
+  // Images are resized and re-encoded at build time (sharp, via astro:assets)
+  // so the Worker only serves static files: no Cloudflare Images binding.
+  adapter: cloudflare({ imageService: 'compile' }),
   integrations: [sitemap()],
   i18n: {
     defaultLocale: 'en',

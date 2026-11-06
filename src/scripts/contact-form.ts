@@ -6,7 +6,40 @@
 */
 const form = document.querySelector<HTMLFormElement>('[data-contact-form]');
 
+/*
+  Cloudflare Turnstile is deferred: the script is injected only when the form
+  comes within ~800px of the viewport, or on first focus/submit as a fallback.
+  Its implicit render picks up the .cf-turnstile element on load, and the
+  server still rejects any submit without a valid token.
+*/
+const TURNSTILE_SRC = 'https://challenges.cloudflare.com/turnstile/v0/api.js';
+let turnstileRequested = false;
+const loadTurnstile = () => {
+  if (turnstileRequested) return;
+  turnstileRequested = true;
+  const s = document.createElement('script');
+  s.src = TURNSTILE_SRC;
+  s.async = true;
+  document.head.append(s);
+};
+
 if (form) {
+  if ('IntersectionObserver' in window) {
+    const io = new IntersectionObserver(
+      (entries) => {
+        if (entries.some((e) => e.isIntersecting)) {
+          io.disconnect();
+          loadTurnstile();
+        }
+      },
+      { rootMargin: '800px 0px' },
+    );
+    io.observe(form);
+  } else {
+    loadTurnstile();
+  }
+  form.addEventListener('focusin', loadTurnstile, { once: true });
+
   const card = form.closest('.card') as HTMLElement | null;
   const success = card?.querySelector<HTMLElement>('[data-success]') ?? null;
   const sendAnother = card?.querySelector<HTMLButtonElement>('[data-send-another]') ?? null;
@@ -15,15 +48,22 @@ if (form) {
   const formError = form.querySelector<HTMLElement>('[data-form-error]');
 
   const msgs = {
-    required: form.dataset.errRequired ?? 'This field is required.',
-    mail: form.dataset.errMail ?? 'Enter a valid email address.',
-    short: form.dataset.errShort ?? 'Please write a little more.',
-    server: form.dataset.errServer ?? 'Something went wrong. Please try again.',
-    captcha: form.dataset.errCaptcha ?? 'Please complete the verification.',
-    rate: form.dataset.errRate ?? 'Too many attempts. Please try again later.',
+    nameRequired: form.dataset.errNameRequired ?? 'Enter your name.',
+    mailRequired: form.dataset.errMailRequired ?? 'Enter your email address.',
+    msgRequired: form.dataset.errMsgRequired ?? 'Write a message.',
+    mail: form.dataset.errMail ?? 'Enter an email address like name@example.com.',
+    short: form.dataset.errShort ?? 'Tell me a little more — at least 10 characters.',
+    long: form.dataset.errLong ?? 'Use {max} characters or fewer.',
+    server: form.dataset.errServer ?? "Your message didn't send. Try again.",
+    captcha: form.dataset.errCaptcha ?? 'Complete the security check, then send again.',
+    rate: form.dataset.errRate ?? 'Too many messages. Wait about 10 minutes, then try again.',
   };
   const lang = form.dataset.lang ?? 'en';
   const emailRe = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+  // Same upper bounds as the server (src/pages/api/contact.ts).
+  const MAX = { name: 100, mail: 254, message: 5000 };
+  const tooLong = (max: number) =>
+    msgs.long.replace('{max}', max.toLocaleString(lang));
 
   const errEl = (key: string) =>
     form.querySelector<HTMLElement>(`[data-error="${key}"]`);
@@ -63,11 +103,14 @@ if (form) {
     const mail = (fieldEl('mail')?.value ?? '').trim();
     const message = (fieldEl('message')?.value ?? '').trim();
     const errors: Record<string, string> = {};
-    if (!name) errors.name = msgs.required;
-    if (!mail) errors.mail = msgs.required;
+    if (!name) errors.name = msgs.nameRequired;
+    else if (name.length > MAX.name) errors.name = tooLong(MAX.name);
+    if (!mail) errors.mail = msgs.mailRequired;
     else if (!emailRe.test(mail)) errors.mail = msgs.mail;
-    if (!message) errors.message = msgs.required;
+    else if (mail.length > MAX.mail) errors.mail = tooLong(MAX.mail);
+    if (!message) errors.message = msgs.msgRequired;
     else if (message.length < 10) errors.message = msgs.short;
+    else if (message.length > MAX.message) errors.message = tooLong(MAX.message);
     return { errors, values: { name, mail, message } };
   };
 
@@ -77,7 +120,7 @@ if (form) {
     if (submitLabel) {
       submitLabel.textContent = busy
         ? submit.dataset.labelSending ?? 'Sending…'
-        : submit.dataset.labelIdle ?? 'Submit';
+        : submit.dataset.labelIdle ?? 'Send message';
     }
   };
 
@@ -118,6 +161,7 @@ if (form) {
       form.querySelector<HTMLInputElement>('[name="cf-turnstile-response"]')?.value ?? ''
     ).trim();
     if (!token) {
+      loadTurnstile();
       showFormError(msgs.captcha);
       return;
     }

@@ -16,7 +16,7 @@ const { lang } = Astro.props;
 <Header lang={lang} />
 <MobileDrawer lang={lang} />
 
-<main id="top">
+<main id="top" tabindex="-1">
   <Hero lang={lang} />
   <About lang={lang} />
   <Projects lang={lang} />
@@ -28,5 +28,10 @@ const { lang } = Astro.props;
 <script>
   import '../scripts/drawer';
   import '../scripts/contact-form';
-  import '../scripts/motion';
+
+  // GSAP (~115KB) is split into its own chunk and only fetched when motion
+  // will actually run; reduced-motion visitors never download it.
+  if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    void import('../scripts/motion');
+  }
 </script>

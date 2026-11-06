@@ -41,12 +41,16 @@ const t = useTranslations(lang);
     gap: 56px;
   }
 
+  /* Reading measure: 30em keeps both paragraphs near 65-75 characters per
+     line in either language, in the desktop column and once the grid stacks. */
   .p1 {
+    max-width: 30em;
     font-size: 19px;
     line-height: 1.65;
     margin: 0 0 20px;
   }
   .p2 {
+    max-width: 30em;
     font-size: 17px;
     line-height: 1.65;
     margin: 0;

@@ -24,10 +24,10 @@ const TURNSTILE_SITEKEY = '0x4AAAAAAETQP9CnbWpW2Z1B';
         <p class="blurb">{t('contact.blurb')}</p>
         <div class="links">
           <a class="link-row" href={contactLinks.linkedin} target="_blank" rel="noopener">
-            LinkedIn<Icon name="arrow-up-right" size={18} />
+            <span>LinkedIn<span class="visually-hidden"> {t('a11y.newTab')}</span></span><Icon name="arrow-up-right" size={18} />
           </a>
           <a class="link-row" href={contactLinks.github} target="_blank" rel="noopener">
-            GitHub<Icon name="arrow-up-right" size={18} />
+            <span>GitHub<span class="visually-hidden"> {t('a11y.newTab')}</span></span><Icon name="arrow-up-right" size={18} />
           </a>
           <a class="link-row" href={contactLinks.cv} download="Bruno Martinez - CV.pdf">
             {t('contact.cv')}<Icon name="download" size={18} />
@@ -42,28 +42,32 @@ const TURNSTILE_SITEKEY = '0x4AAAAAAETQP9CnbWpW2Z1B';
           class="form"
           data-contact-form
           data-lang={lang}
-          data-err-required={t('contact.errRequired')}
+          data-err-name-required={t('contact.errNameRequired')}
+          data-err-mail-required={t('contact.errMailRequired')}
+          data-err-msg-required={t('contact.errMsgRequired')}
           data-err-mail={t('contact.errMail')}
           data-err-short={t('contact.errShort')}
+          data-err-long={t('contact.errLong')}
           data-err-server={t('contact.errServer')}
           data-err-captcha={t('contact.errCaptcha')}
           data-err-rate={t('contact.errRate')}
           novalidate
         >
+          <noscript><p class="form-error">{t('contact.noScript')}</p></noscript>
           <div class="field">
             <label for="cf-name">{t('contact.fieldName')}</label>
-            <input id="cf-name" name="name" type="text" autocomplete="name" maxlength="100" required />
-            <span class="err" data-error="name" aria-live="polite"></span>
+            <input id="cf-name" name="name" type="text" autocomplete="name" maxlength="100" required aria-describedby="cf-name-err" />
+            <span class="err" id="cf-name-err" data-error="name" aria-live="polite"></span>
           </div>
           <div class="field">
             <label for="cf-mail">{t('contact.fieldMail')}</label>
-            <input id="cf-mail" name="mail" type="email" autocomplete="email" maxlength="254" required />
-            <span class="err" data-error="mail" aria-live="polite"></span>
+            <input id="cf-mail" name="mail" type="email" autocomplete="email" maxlength="254" required aria-describedby="cf-mail-err" />
+            <span class="err" id="cf-mail-err" data-error="mail" aria-live="polite"></span>
           </div>
           <div class="field">
             <label for="cf-msg">{t('contact.fieldMsg')}</label>
-            <textarea id="cf-msg" name="message" rows="5" maxlength="5000" required></textarea>
-            <span class="err" data-error="message" aria-live="polite"></span>
+            <textarea id="cf-msg" name="message" rows="5" maxlength="5000" required aria-describedby="cf-msg-err"></textarea>
+            <span class="err" id="cf-msg-err" data-error="message" aria-live="polite"></span>
           </div>
 
           <!-- Honeypot: hidden from users; bots that fill it are dropped. -->
@@ -128,6 +132,7 @@ const TURNSTILE_SITEKEY = '0x4AAAAAAETQP9CnbWpW2Z1B';
   }
 
   .blurb {
+    max-width: 30em;
     font-size: 19px;
     line-height: 1.65;
     margin: 0 0 28px;
@@ -194,6 +199,7 @@ const TURNSTILE_SITEKEY = '0x4AAAAAAETQP9CnbWpW2Z1B';
   .field textarea { resize: vertical; }
   .err {
     font-size: 13px;
+    line-height: 17px;
     color: var(--color-error);
     min-height: 17px;
   }

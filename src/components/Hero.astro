@@ -1,7 +1,9 @@
 ---
 import type { Lang } from "../i18n/ui";
 import { useTranslations } from "../i18n/utils";
+import { Picture } from "astro:assets";
 import SpecStrip from "./SpecStrip.astro";
+import portrait from "../assets/images/hero-portrait.jpg";
 
 interface Props {
   lang: Lang;
@@ -37,11 +39,19 @@ const t = useTranslations(lang);
         <i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"
         ></i><i class="corner br"></i>
         <div class="fig-box">
-          <img
-            src="/images/hero-portrait.jpg"
-            alt="Bruno Martinez"
-            width="800"
-            height="1000"
+          <!-- LCP element: eager, high priority, cropped to the frame's 4:5
+               at build time (the same centre crop object-fit showed). -->
+          <Picture
+            src={portrait}
+            alt={t("hero.portraitAlt")}
+            formats={["avif", "webp"]}
+            width={640}
+            height={800}
+            fit="cover"
+            widths={[320, 480, 640]}
+            sizes="(max-width: 560px) calc(100vw - 70px), min(36vw, 444px)"
+            loading="eager"
+            fetchpriority="high"
           />
         </div>
       </div>
@@ -143,7 +153,7 @@ const t = useTranslations(lang);
     font-family: var(--font-heading);
     letter-spacing: 0.12em;
     text-transform: uppercase;
-    font-size: clamp(10px, 1.1vw, 12px);
+    font-size: 12px;
     margin-top: 10px;
   }
 
