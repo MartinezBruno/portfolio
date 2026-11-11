@@ -10,6 +10,8 @@ interface Props {
 }
 const { project, lang } = Astro.props;
 const t = useTranslations(lang);
+const galleryId = `gallery-${project.n}`;
+const galleryTitleId = `${galleryId}-title`;
 ---
 <article class="card blueprint" data-reveal>
   <i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
@@ -20,7 +22,7 @@ const t = useTranslations(lang);
           exactly what object-fit: cover + object-position: top showed. */}
       <Picture
         src={project.img}
-        alt={t('projects.imageAlt').replace('{title}', project.title)}
+        alt={project.imgAlt?.[lang] ?? t('projects.imageAlt').replace('{title}', project.title)}
         formats={['avif', 'webp']}
         width={640}
         height={400}
@@ -52,14 +54,83 @@ const t = useTranslations(lang);
   <div class="btn-row">
     {/* The hidden title keeps each link's name unique out of context
         ("View page: InstaBlogs") while the visible label stays short. */}
-    <a class="btn btn-primary act" href={project.live}>
-      {t('projects.viewPage')}<span class="visually-hidden">: {project.title}</span>
-    </a>
+    {project.live ? (
+      <a class="btn btn-primary act" href={project.live}>
+        {t('projects.viewPage')}<span class="visually-hidden">: {project.title}</span>
+      </a>
+    ) : project.gallery && (
+      <button
+        type="button"
+        class="btn btn-primary act"
+        aria-haspopup="dialog"
+        aria-controls={galleryId}
+        data-gallery-open={galleryId}
+      >
+        {t('projects.viewGallery')}<span class="visually-hidden">: {project.title}</span>
+      </button>
+    )}
     <a class="btn btn-secondary act" href={project.code}>
       {t('projects.viewCode')}<span class="visually-hidden">: {project.title}</span>
     </a>
   </div>
+
+  {project.gallery && (
+    /* Native modal <dialog>: showModal() makes the page behind it inert, traps
+       focus, closes on Escape and returns focus to the opener. */
+    <dialog id={galleryId} class="gallery" aria-labelledby={galleryTitleId} data-gallery>
+      <div class="gallery-head">
+        <h4 id={galleryTitleId} class="gallery-title">
+          {t('projects.galleryTitle').replace('{title}', project.title)}
+        </h4>
+        <button type="button" class="btn btn-secondary act" data-gallery-close>
+          {t('projects.closeGallery')}
+        </button>
+      </div>
+      <ul class="gallery-list" role="list">
+        {project.gallery.map((item) => (
+          <li>
+            <figure>
+              <Picture
+                src={item.img}
+                alt=""
+                formats={['avif', 'webp']}
+                widths={[640, 960, 1280, 1760]}
+                sizes="(max-width: 960px) calc(100vw - 64px), 880px"
+                loading="lazy"
+                decoding="async"
+              />
+              <figcaption>{item.caption[lang]}</figcaption>
+            </figure>
+          </li>
+        ))}
+      </ul>
+    </dialog>
+  )}
 </article>
+
+<script>
+  // One delegated listener for every gallery on the page.
+  document.addEventListener('click', (e) => {
+    const target = e.target;
+    if (!(target instanceof Element)) return;
+
+    const opener = target.closest<HTMLElement>('[data-gallery-open]');
+    if (opener) {
+      const id = opener.dataset.galleryOpen;
+      const dialog = id ? document.getElementById(id) : null;
+      if (dialog instanceof HTMLDialogElement) dialog.showModal();
+      return;
+    }
+
+    if (target.closest('[data-gallery-close]')) {
+      target.closest('dialog')?.close();
+      return;
+    }
+
+    // A click on the dialog element itself (not its content) is the backdrop.
+    if (target instanceof HTMLDialogElement && target.matches('[data-gallery]')) target.close();
+  });
+</script>
 
 <style>
   /* Internal rhythm: figure, then a tight title + description pair, chips
@@ -156,6 +227,59 @@ const t = useTranslations(lang);
   .act {
     letter-spacing: 0.06em;
     text-transform: uppercase;
+  }
+
+  /* Gallery dialog: a sheet on the same paper, hairline border, no radius. */
+  .gallery {
+    width: min(920px, calc(100vw - 32px));
+    max-height: calc(100dvh - 32px);
+    padding: 0;
+    border: 1px solid var(--color-divider);
+    background: var(--color-bg);
+    color: var(--color-text);
+    overflow: auto;
+    overscroll-behavior: contain;
+  }
+  .gallery::backdrop {
+    background: color-mix(in srgb, var(--color-text) 55%, transparent);
+  }
+  .gallery-head {
+    position: sticky;
+    top: 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 12px 16px;
+    background: var(--color-bg);
+    border-bottom: 1px solid var(--color-divider);
+  }
+  .gallery-title {
+    font-family: var(--font-heading);
+    font-weight: 700;
+    font-size: 16px;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    margin: 0;
+  }
+  .gallery-list {
+    list-style: none;
+    margin: 0;
+    padding: 16px;
+    display: grid;
+    gap: 24px;
+  }
+  .gallery-list img {
+    display: block;
+    width: 100%;
+    height: auto;
+    border: 1px solid var(--color-divider);
+  }
+  .gallery-list figcaption {
+    margin-top: 8px;
+    font-size: 14px;
+    line-height: 1.5;
+    color: color-mix(in srgb, var(--color-text) 76%, transparent);
   }
 
   /* Touch widths: the same mark, a finger-sized hit area. */

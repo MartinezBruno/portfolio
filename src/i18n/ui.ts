@@ -57,6 +57,10 @@ export const ui = {
     'projects.imagePending': 'Screenshot pending',
     // {title} is the project title.
     'projects.imageAlt': 'Screenshot of {title}',
+    'projects.viewGallery': 'View screenshots',
+    'projects.closeGallery': 'Close',
+    // {title} is the project title.
+    'projects.galleryTitle': '{title} — screenshots',
 
     'contact.title': 'Contact me',
     'contact.blurb':
@@ -126,6 +130,9 @@ export const ui = {
     'projects.viewCode': 'Ver código',
     'projects.imagePending': 'Captura pendiente',
     'projects.imageAlt': 'Captura de pantalla de {title}',
+    'projects.viewGallery': 'Ver capturas',
+    'projects.closeGallery': 'Cerrar',
+    'projects.galleryTitle': '{title}: capturas',
 
     'contact.title': 'Contacto',
     'contact.blurb':
