@@ -44,9 +44,7 @@ export const projects: Project[] = [
       en: 'A blogging platform: sign in, write and edit posts with images, reply in comment threads and browse author profiles. Built on the Next.js App Router with its own REST API.',
       es: 'Una plataforma de blogs: iniciás sesión, escribís y editás posts con imágenes, respondés en hilos de comentarios y recorrés perfiles de autor. Hecha con el App Router de Next.js y una API REST propia.',
     },
-    // TODO: restore `live: 'https://instablogs.vercel.app'` and retake the
-    // screenshot once the site's images load again (its Firebase Storage
-    // bucket returns 402; see FIXES.md in the Instablogs repo).
+    live: 'https://instablogs.vercel.app',
     code: 'https://github.com/MartinezBruno/Instablogs',
   },
   {
